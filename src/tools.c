@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosopher.h"
+#include "../include/philosopher.h"
 
 int ft_isdigit(int c)
 {
@@ -46,16 +46,40 @@ int	ft_atoi(const char *str)
 	return (result * negative);
 }
 
-void	ft_calloc(size_t n_membm, size_t size)
+void	*ft_calloc(size_t n_memb, size_t size)
 {
 	void	*ptr;
+	char	*tmp;
 	size_t	i;
 
 	i = 0;
 	ptr = malloc(n_memb * size);
 	if (!ptr)
 		return (NULL);
-	while (i < n_memb * size)
-		(char *)ptr[i++] = 0;
+	tmp = ptr;
+	while (i < (n_memb * size))
+	{
+		tmp[i] = 0;
+		i++;
+	}
 	return (ptr);
+}
+
+size_t	get_time(void)
+{
+	struct timeval	tv;
+	size_t			time;
+
+	gettimeofday(&tv, NULL);
+	time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	return (time);
+}
+int	ft_usleep(size_t time)
+{
+	size_t	start;
+
+	start = get_time();
+	while (get_time() - start < time)
+		usleep(500);
+	return (1);
 }

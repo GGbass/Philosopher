@@ -19,7 +19,7 @@ SRC =	./src/check_argv.c \
 		./src/free.c \
 		./src/main.c \
 
-SRCB =	
+SRCB =
 
 OBJ = $(SRC:.c=.o)
 
@@ -32,9 +32,7 @@ CC = gcc
 all: $(NAME) show_progress
 
 $(NAME): $(OBJ)
-	@make -s -C libft
-	@make -s -C mlx
-	$(CC) $(CFLAGS) $(OBJ) $(INCLUDES) -L libft -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ)  -o $(NAME)
 
 show_progress:
 		@for file in $(SRC); do \
@@ -47,8 +45,7 @@ show_progress:
 bonus:
 
 $(NAMEB): $(OBJB) show_progress2
-	@make -s -C libft
-	$(CC) $(CFLAGS) $(OBJB) $(INCLUDES)  -L libft -lft -o philosopher_bonus
+	$(CC) $(CFLAGS) $(OBJB) -o philosopher_bonus
 
 show_progress2:
 		@for file in $(SRCB); do \
@@ -58,15 +55,13 @@ show_progress2:
 
 clean:
 	rm -f  $(NAME)
-	rm -f $(NAMEB)
-	rm -f philosopher_bonus
-	@make fclean -s -C libft
+#	rm -f $(NAMEB)
+#rm -f philosopher_bonus
 
 fclean: clean
 	rm -f  $(OBJ)
-	rm -f $(OBJB)
-	rm -f philosopher_bonus
-	@make fclean -s -C libft
+#	rm -f $(OBJB)
+#	rm -f philosopher_bonus
 
 re: fclean all
 

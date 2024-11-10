@@ -10,10 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosopher.h"
+#include "../include/philosopher.h"
 
 void	free_data(t_data *data)
 {
-	free(data->philos);
+	if (data->philos)
+	{
+		free(data->philos->threads);
+		//free(data->philos->forks);
+		//free(data->philos->forks_status);
+		//free(data->philos->forks_time);
+		free(data->philos);
+	}
 	free(data);
 }
