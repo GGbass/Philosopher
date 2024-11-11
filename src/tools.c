@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:43:46 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/01 19:43:46 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/11 18:08:20 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,13 @@ size_t	get_time(void)
 	time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	return (time);
 }
+
 int	ft_usleep(size_t time)
 {
 	size_t	start;
 
 	start = get_time();
 	while (get_time() - start < time)
-		usleep(500);
+		usleep(100);
 	return (1);
 }
