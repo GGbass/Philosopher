@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:33:04 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/01 19:33:04 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/14 20:26:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	check_argv(int argc, char **argv)
 	}
 	while(i < argc)
 	{
-		if (ft_atoi(argv[i]) < 0)
+		if (ft_atoi(argv[i]) < 0 || ft_atoi(argv[i]) > 200)
 		{
-			perror("Error: arguments must be positive integers\n");
+			perror("Error: Negatives or more than 200 threads are not allowed\n");
 			return (0);
 		}
 		if (!check_chars(argv[i]))

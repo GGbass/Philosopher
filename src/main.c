@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/13 14:13:05 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/15 00:32:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,20 @@ void	waiter_routine(t_data *data)
 	printf("waiter nb, %ld\n ", data->philos->waiter);
 }
 
-void	routine(t_data *data)
+void	forks_init(t_data *data)
 {
-	printf("here \n");
-	printf("philo id %d\n", data->philos->id);
-	printf("current time %ld\n", get_time());
+	int i;
 
+	i = 0;
+	data->philos->forks = ft_calloc(data->philos->nb_philos, sizeof(pthread_mutext_t));
+	if (!data->philos->forks)
+		(perror("Error creating forks"), free_data(data));
+	while(i < data->philos->nb_philos)
+	{
+		pthread_mutex_init(data->philos->forks[i], NULL);
+		i++;
+	}
+	printf("out of forks init while \n");
 }
 
 void	thread_init(t_data *data)
@@ -42,6 +50,7 @@ void	thread_init(t_data *data)
 		pthread_create(&data->philos->threads[i], NULL, (void *)routine, NULL);
 		i++;
 	}
+	forks_init(data);
 	pthread_create(&data->philos->waiter, NULL, (void *)waiter_routine, NULL);
 	i = 0;
 	while(i < data->philos->nb_philos)
@@ -70,12 +79,13 @@ t_data	*init_mutex(int argc, char **argv)
 	data->philos->time_to_eat = ft_atoi(argv[3]);
 	data->philos->time_to_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
-		data->philos->nb_times_each_philo_must_eat = ft_atoi(argv[5]);
+		data->philos->times_each_must_eat = ft_atoi(argv[5]);
 	else
 		data->philos->nb_times_each_philo_must_eat = -1;
-	//pthread_mutex_init(&data->meal_mutex, NULL);
-	//pthread_mutex_init(&data->sleep_mutex, NULL);
-	//pthread_mutex_init(&data->write_mutex, NULL);
+	pthread_mutex_init(&data->philos->start_philo, NULL);
+	pthread_mutex_init(&data->meal_mutex, NULL);
+	pthread_mutex_init(&data->sleep_mutex, NULL);
+	pthread_mutex_init(&data->write_mutex, NULL);
 	return (data);
 }
 

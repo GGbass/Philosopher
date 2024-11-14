@@ -6,11 +6,23 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:48:58 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/13 13:57:00 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/14 23:07:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher.h"
+
+/* void	free_threads(t_data *data)
+{
+	int i;
+
+	i = 0;
+	while(i < data->philos->nb_philos)
+	{
+		pthread_detach(data->philos[i].threads);
+		i++;
+	}
+} */
 
 void	free_data(t_data *data)
 {

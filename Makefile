@@ -14,7 +14,9 @@ NAME = philospher
 
 NAMEB = bonus
 
-SRC =	./src/check_argv.c \
+SRC =	./src/routine.c \
+		./src/check_argv.c \
+		./src/tools2.c \
 		./src/tools.c \
 		./src/free.c \
 		./src/main.c \

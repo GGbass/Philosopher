@@ -29,3 +29,20 @@ void	philo_and_fork_assigner(t_data *data)
 		i++;
 	}
 }
+
+void	thread_values(t_data *data)
+{
+	int i;
+
+	i = 0;
+	while(i < data->philos->nb_philos)
+	{
+		data->philos->threads[i].id = i;
+		data->philos->threads[i].time_to_eat = data->philos->time_to_eat;
+		data->philos->threads[i].time_to_sleep = data->philos->time_to_sleep;
+		data->philos->threads[i].time_to_die = data->philos->time_to_die;
+		data->philos->threads[i].nb_philos = data->philos->nb_philos;
+		data->philos->threads[i].times_each_must_eat = data->philos->times_each_must_eat;
+		i++;
+	}
+}
