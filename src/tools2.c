@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   tools2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/01 19:48:58 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/13 13:57:00 by marvin           ###   ########.fr       */
+/*   Created: 2024/11/13 14:24:21 by marvin            #+#    #+#             */
+/*   Updated: 2024/11/13 14:24:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher.h"
 
-void	free_data(t_data *data)
+void	philo_and_fork_assigner(t_data *data)
 {
-	if (data->philos)
+	int	i;
+
+	i = 0;
+	while(i < data->philos->nb_philos)
 	{
-		free(data->philos->threads);
-		free(data->philos->forks);
-		//pthread_destroy_mutex(data->philos->meal_mutex);
-		//pthread_destroy_mutex(data->philos->sleep_mutex);
-		//pthread_destroy_mutex(data->philos->write_mutex);
-		free(data->philos);
+		data->philos->threads[i] = i;
+		i++;
 	}
-	free(data);
-	exit(0);
+	i = 0;
+	while (i < data->philos->nb_philos)
+	{
+		pthread_mutex_init(&data->philos->forks[i], NULL);
+		i++;
+	}
 }
