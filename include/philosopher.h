@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/15 00:33:10 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/15 19:04:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,16 @@ typedef struct s_philo
 	pthread_t		*threads;
 	pthread_t		waiter;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	start_philo;
+	pthread_mutex_t	dead_mutex;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	sleep_mutex;
 	pthread_mutex_t	write_mutex;
 	pthread_mutex_t	left_fork;
 	pthread_mutex_t	right_fork;
 	int				id;
+	int				dead_flag;
 	int				time_to_eat;
+	int				last_meal;
 	int				time_to_sleep;
 	int				time_to_die;
 	int				nb_philos;
@@ -41,6 +43,7 @@ typedef struct s_philo
 typedef struct s_data
 {
 	int				time;
+	pthread_mutex_t	start_philo;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	sleep_mutex;
 	pthread_mutex_t	write_mutex;

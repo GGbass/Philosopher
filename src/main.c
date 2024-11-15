@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/15 00:32:52 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/15 18:13:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,30 @@ void	forks_init(t_data *data)
 
 void	thread_init(t_data *data)
 {
-	int			i;
+	int	i;
 
 	i = 0;
 	data->time = get_time();
-	pthread_mutex_lock(&data->start_time);
+	pthread_mutex_lock(&data->start_philo);
 	data->philos->threads = ft_calloc(data->philos->nb_philos, sizeof(pthread_t));
 	if (!data->philos->threads)
 		free_data(data);
-	while(i < data->philos->nb_philos)
+	while (i < data->philos->nb_philos)
 	{
 		printf("philo %d\n", i);
-		pthread_create(&data->philos->threads[i], NULL, (void *)routine, NULL);
+		pthread_create(&data->philos->threads[i], NULL, (void *)routine, &data->philos[i]);
 		i++;
 	}
 	forks_init(data);
-	pthread_create(&data->philos->waiter, NULL, (void *)waiter_routine, NULL);
+	pthread_create(&data->philos->waiter, NULL, (void *)waiter_routine, &data->waiter);
+	
 	i = 0;
-	while(i < data->philos->nb_philos)
+	while (i < data->philos->nb_philos)
 	{
 		pthread_join(data->philos->threads[i], NULL);
 		i++;
 	}
-	pthread_mutex_unlock(&data->start_time);
+	pthread_mutex_unlock(&data->start_philo);
 }
 
 t_data	*init_mutex(int argc, char **argv)
