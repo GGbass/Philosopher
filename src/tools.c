@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:43:46 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/16 23:36:51 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/19 00:19:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,6 @@ int	ft_usleep(size_t time)
 
 	start = get_time();
 	while (get_time() - start < time)
-		usleep(100);
+		usleep(10);
 	return (1);
 }

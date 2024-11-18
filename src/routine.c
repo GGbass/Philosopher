@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 23:57:47 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/18 18:16:35 by gongarci         ###   ########.fr       */
+/*   Updated: 2024/11/19 00:24:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,17 @@ int	check_philos(t_philo *philos)
 void	*routine(t_philo *philos)
 {
 	int i = 0;
-	//printf("current time %ld\n", get_time());
-	//printf("philo %d\n", philos->id);
-	//pthread_mutex_lock(&philos->philo_begin); // why ?
-	//pthread_mutex_unlock(&philos->philo_begin);
-	if (philos->id % 2 == 0)
-		ft_usleep(100);
+	int j = 0;
+	pthread_mutex_lock(&philos->philo_begin);
+	pthread_mutex_unlock(&philos->philo_begin);
+	/* if (philos->id % 2 == 0)
+		ft_usleep(100); */
 	//while (!waiter_routine(philos))
 	while(i < philos->nb_philos)
 	{
-		printf("current time %ld\n", get_time());
-		printf("philo %d\n", philos[i].id);
+		print_thread(philos, philos->id, "is thinking");
+		/* if (philos->id % 2 != 0)
+			ft_usleep(100); */
 		//if (!eating(philos))
 		//	return (NULL);
 		//if (philos->times_each_must_eat == 0)

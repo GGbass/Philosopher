@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/18 17:58:53 by gongarci         ###   ########.fr       */
+/*   Updated: 2024/11/19 00:08:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_philo
 	int				time_to_sleep;
 	int				time_to_die;
 	int				nb_philos;
+	int				start_time;
 	int				times_each_must_eat;
 }					t_philo;
 
@@ -61,5 +62,6 @@ int		ft_usleep(size_t time);
 void	philo_and_fork_assigner(t_data *data);
 void	*routine(t_philo *philos);
 void	thread_values(t_data *data);
+void	print_thread(t_philo *philos, int id, char *str);
 
 #endif

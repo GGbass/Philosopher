@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   tools2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:24:21 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/18 18:09:08 by gongarci         ###   ########.fr       */
+/*   Updated: 2024/11/19 00:09:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher.h"
+
+void	print_thread(t_philo *philos, int id, char *str)
+{
+	size_t	time;
+
+	time = get_time() - philos->start_time;
+	printf("%ld %d %s\n", time, id, str);
+}
 
 void	philo_and_fork_assigner(t_data *data)
 {
@@ -38,6 +46,7 @@ void	thread_values(t_data *data)
 	while(i < data->philos->nb_philos)
 	{
 		data->philos[i].id = i;
+		data->philos[i].start_time = (int )get_time();
 		data->philos[i].time_to_eat = data->philos->time_to_eat;
 		data->philos[i].time_to_sleep = data->philos->time_to_sleep;
 		data->philos[i].time_to_die = data->philos->time_to_die;
