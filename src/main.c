@@ -3,43 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/17 00:23:23 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/18 17:50:54 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher.h"
 
-void	waiter_routine(t_philo *waiter)
+/* void	waiter_routine(t_philo *philos)
 {
 	int i;
 
 	i = 0;
-	while (i < waiter->nb_philos)
+	while (i < philos->nb_philos)
 	{
-		pthread_mutex_lock(&waiter->meal_mutex);
-		if (waiter->philos[i].times_each_must_eat == 0)
+		pthread_mutex_lock(&philos->meal_mutex);
+		if (philos[i].times_each_must_eat == 0)
 			i++;
-		pthread_mutex_unlock(&waiter->meal_mutex);
+		pthread_mutex_unlock(&philos->meal_mutex);
 	}
-	pthread_mutex_lock(&waiter->write_mutex);
+	pthread_mutex_lock(&philos->write_mutex);
 	printf("All philos ate %d times\n", waiter->times_each_must_eat);
-	pthread_mutex_unlock(&waiter->write_mutex);	
-}
+	pthread_mutex_unlock(&waiter->write_mutex);
+} */
 
-void	forks_init(t_philo *philos)
+void	forks_init(t_data *data)
 {
 	int i;
 
 	i = 0;
-	philos->forks = ft_calloc(philos->nb_philos, sizeof(pthread_mutext_t));
-	if (!philos->forks)
+	data->philos->forks = ft_calloc(data->philos->nb_philos, sizeof(pthread_mutex_t));
+	if (!data->philos->forks)
 		(perror("Error creating forks"), free_data(data));
-	while(i < philos->nb_philos)
+	while(i < data->philos->nb_philos)
 	{
-		pthread_mutex_init(philos->forks[i], NULL);
+		pthread_mutex_init(&data->philos->forks[i], NULL);
 		i++;
 	}
 	printf("out of forks init while \n");
@@ -61,8 +61,8 @@ void	thread_init(t_data *data)
 		pthread_create(&data->philos->threads[i], NULL, (void *)routine, &data->philos[i]);
 		i++;
 	}
-	forks_init(data->philos);
-	pthread_create(&data->philos->waiter, NULL, (void *)waiter_routine, &data->waiter);
+	forks_init(data);
+	//pthread_create(&data->philos->waiter, NULL, (void *)waiter_routine, &data->philos->waiter);
 	i = 0;
 	while (i < data->philos->nb_philos)
 	{
@@ -92,7 +92,7 @@ t_data	*init_mutex(int argc, char **argv)
 	if (argc == 6)
 		data->philos->times_each_must_eat = ft_atoi(argv[5]);
 	else
-		data->philos->nb_times_each_philo_must_eat = -1;
+		data->philos->times_each_must_eat = -1;
 	pthread_mutex_init(&data->start_philo, NULL);
 	pthread_mutex_init(&data->meal_mutex, NULL);
 	pthread_mutex_init(&data->sleep_mutex, NULL);

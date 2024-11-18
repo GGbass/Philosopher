@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_argv.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:33:04 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/16 23:04:35 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/18 18:10:58 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	check_argv(int argc, char **argv)
 	}
 	while(i < argc)
 	{
-		if (ft_atoi(argv[i]) < 0 || ft_atoi(argv[i]) > 200)
+		if (ft_atoi(argv[i]) < 0 || ft_atoi(argv[1]) > 200)
 		{
 			perror("Error: Negatives or more than 200 threads are not allowed\n");
 			return (0);

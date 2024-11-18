@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/15 19:04:40 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/18 17:58:53 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_philo
 	pthread_t		*threads;
 	pthread_t		waiter;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	philo_begin;
 	pthread_mutex_t	dead_mutex;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	sleep_mutex;
@@ -58,6 +59,7 @@ void	free_data(t_data *data);
 void	*ft_calloc(size_t n_memb, size_t size);
 int		ft_usleep(size_t time);
 void	philo_and_fork_assigner(t_data *data);
-pthread_t	*routine(t_philo *philos);
+void	*routine(t_philo *philos);
+void	thread_values(t_data *data);
 
 #endif
