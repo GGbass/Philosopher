@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:43:46 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/11 18:08:20 by gongarci         ###   ########.fr       */
+/*   Updated: 2024/11/16 23:36:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_atoi(const char *str)
 	{
 		result = (str[i] - '0') + (result * 10);
 		if (result * negative > INT_MAX || result * negative < INT_MIN)
-			return (-1);
+			return (printf("MAX or MIN INT exceeded"), -1);
 		i++;
 	}
 	return (result * negative);

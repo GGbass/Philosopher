@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:33:04 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/14 20:26:48 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/16 23:04:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_argv(int argc, char **argv)
 	if (argc < 5 || argc > 6)
 	{
 		perror("Error: wrong number of arguments");
-		perror ("\n./philo [philos], [death_time], [eating_time], [sleeping_time] and [times to eat  before ends the program]\n\n");
+		perror ("\n./philo [philos], [time to die], [time to eat], [time to sleep] and [times to eat  before ends the program]\n\n");
 		return (0);
 	}
 	while(i < argc)

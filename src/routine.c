@@ -15,7 +15,6 @@
 int	dead_philo(t_philo *philos)
 {
 	pthread_mutex_lock(&philos->dead_mutex);
-	philos->dead_flag = 1;
 	if (get_time() - philos->last_meal > philos->time_to_die)
 	{
 		
@@ -45,13 +44,13 @@ pthread_t	*routine(t_philo *philos)
 	printf("current time %ld\n", get_time());
 	pthread_mutex_lock(&philos->start_philo);
 	pthread_mutex_unlock(&philos->start_philo);
-	while(check_philos(philos))
+/* 	while(check_philos(philos))
 	{
 		printf("philo %d is thinking\n", philos->id);
 		printf("philo %d is eating\n", philos->id);
 		printf("philo %d is sleeping\n", philos->id);
-	}
-	while (!check_philos(philos))
+	} */
+	while (!waiter_routine(philos))
 	{
 		if (!eating(philos))
 			return (NULL);
@@ -60,4 +59,5 @@ pthread_t	*routine(t_philo *philos)
 		sleeping(philos);
 		thinking(philos);
 	}
+	return (philos);
 }
