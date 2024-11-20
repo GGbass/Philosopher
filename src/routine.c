@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 23:57:47 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/19 00:24:48 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/19 19:21:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,16 @@ int	check_philos(t_philo *philos)
 void	*routine(t_philo *philos)
 {
 	int i = 0;
-	int j = 0;
-	pthread_mutex_lock(&philos->philo_begin);
-	pthread_mutex_unlock(&philos->philo_begin);
+//	pthread_mutex_lock(&philos->philo_begin);
+//	pthread_mutex_unlock(&philos->philo_begin);
 	/* if (philos->id % 2 == 0)
 		ft_usleep(100); */
 	//while (!waiter_routine(philos))
 	while(i < philos->nb_philos)
 	{
-		print_thread(philos, philos->id, "is thinking");
+		print_thread(philos, philos[i].id, "is thinking");
+		printf(" philo %d \n",philos[1].id);
+		printf(" philo %d \n",philos[2].id);
 		/* if (philos->id % 2 != 0)
 			ft_usleep(100); */
 		//if (!eating(philos))

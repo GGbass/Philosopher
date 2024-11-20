@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/18 20:14:04 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/20 00:31:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	forks_init(t_data *data)
 	int i;
 
 	i = 0;
+	thread_values(data);
 	data->philos->start_time = get_time();
 	data->philos->forks = ft_calloc(data->philos->nb_philos, sizeof(pthread_mutex_t));
 	if (!data->philos->forks)
