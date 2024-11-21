@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/19 00:08:50 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/21 16:01:39 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 # include <limits.h>
 # include <sys/time.h>
 
+# define PHILO_EAT "\033[1;93mis eating 🍝\033[0;39m"
+# define PHILO_SLEEP "\033[1;95mis sleeping 🌙\033[0;39m"
+# define PHILO_THINK "\033[1;90mis thinking 💭\033[0;39m"
+# define PHILO_TAKE_FORK "\033[1;94mhas taken a fork 🍴\033[0;39m"
+# define PHILO_DIE "\033[1;91mdied 💀\033[0;39m"
+
 typedef struct s_philo
 {
 	pthread_t		*threads;
@@ -29,8 +35,6 @@ typedef struct s_philo
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	sleep_mutex;
 	pthread_mutex_t	write_mutex;
-	pthread_mutex_t	left_fork;
-	pthread_mutex_t	right_fork;
 	int				id;
 	int				dead_flag;
 	int				time_to_eat;

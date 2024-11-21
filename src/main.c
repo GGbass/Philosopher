@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/20 21:04:47 by gongarci         ###   ########.fr       */
+/*   Updated: 2024/11/21 16:14:04 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	forks_init(t_data *data)
 		pthread_mutex_init(&data->philos->forks[i], NULL);
 		i++;
 	}
-	printf("out of forks init while \n");
 }
 
 void	thread_init(t_data *data)
