@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/21 16:01:39 by gongarci         ###   ########.fr       */
+/*   Updated: 2024/11/27 01:28:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,15 @@
 
 typedef struct s_philo
 {
-	pthread_t		*threads;
-	pthread_t		waiter;
-	pthread_mutex_t	*forks;
+	pthread_t		thread;
 	pthread_mutex_t	philo_begin;
 	pthread_mutex_t	dead_mutex;
-	pthread_mutex_t	meal_mutex;
-	pthread_mutex_t	sleep_mutex;
-	pthread_mutex_t	write_mutex;
+	pthread_mutex_t	*meal_mutex;
+	pthread_mutex_t	*sleep_mutex;
+	pthread_mutex_t	*write_mutex;
+	pthread_mutex_t	fork;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 	int				id;
 	int				dead_flag;
 	int				time_to_eat;
@@ -49,6 +50,8 @@ typedef struct s_philo
 typedef struct s_data
 {
 	int				time;
+	int				nb_philos;
+	//pthread_t		waiter;
 	pthread_mutex_t	start_philo;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	sleep_mutex;

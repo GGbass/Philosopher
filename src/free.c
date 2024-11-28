@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:48:58 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/14 23:07:09 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/27 01:35:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	free_data(t_data *data)
 {
 	if (data->philos)
 	{
-		free(data->philos->threads);
-		free(data->philos->forks);
+		//free(&data->philos->thread);
+		//free(data->philos->forks);
 		//pthread_destroy_mutex(data->philos->meal_mutex);
 		//pthread_destroy_mutex(data->philos->sleep_mutex);
 		//pthread_destroy_mutex(data->philos->write_mutex);

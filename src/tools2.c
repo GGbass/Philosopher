@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:24:21 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/20 22:20:02 by gongarci         ###   ########.fr       */
+/*   Updated: 2024/11/27 01:32:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_thread(t_philo *philos, int id, char *str)
 	printf("%ld %d %s\n", time, id, str);
 }
 
-void	philo_and_fork_assigner(t_data *data)
+/* void	philo_and_fork_assigner(t_data *data, pthread_mutex_t *forks)
 {
 	int	i;
 
@@ -28,23 +28,25 @@ void	philo_and_fork_assigner(t_data *data)
 	while(i < data->philos->nb_philos)
 	{
 		data->philos->threads[i] = i;
+		pthread_mutex_init(&forks[i], NULL);
 		i++;
 	}
-	i = 0;
-	while (i < data->philos->nb_philos)
-	{
-		pthread_mutex_init(&data->philos->forks[i], NULL);
-		i++;
-	}
-}
+} */
 
 void	thread_values(t_data *data)
 {
 	int i;
+	pthread_mutex_t	*forks;
 
 	i = 0;
-	while(i < data->philos->nb_philos)
+	//philo_and_fork_assigner(data);
+	forks = ft_calloc(data->philos->nb_philos, sizeof(pthread_mutex_t));
+	if (!forks)
+		(perror("Error creating forks"), free_data(data));
+	while(i < data->philos->nb_philos && pthread_mutex_init(&forks[i], NULL))
 	{
+		//pthread_mutex_init(&forks[i], NULL);
+		//data->philos->thread[i] = i;
 		data->philos[i].id = i;
 		data->philos[i].start_time = (int )get_time();
 		data->philos[i].time_to_eat = data->philos->time_to_eat;
@@ -52,6 +54,8 @@ void	thread_values(t_data *data)
 		data->philos[i].time_to_die = data->philos->time_to_die;
 		data->philos[i].nb_philos = data->philos->nb_philos;
 		data->philos[i].times_each_must_eat = data->philos->times_each_must_eat;
+		data->philos[i].left_fork = &forks[i + 1];
+		data->philos[i].right_fork = &forks[data->philos->nb_philos - 1];
 		i++;
 	}
 }
