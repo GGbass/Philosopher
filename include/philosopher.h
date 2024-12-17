@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/27 01:28:34 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/17 12:39:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <errno.h>
 # include <limits.h>
 # include <sys/time.h>
 
@@ -28,12 +29,6 @@
 typedef struct s_philo
 {
 	pthread_t		thread;
-	pthread_mutex_t	philo_begin;
-	pthread_mutex_t	dead_mutex;
-	pthread_mutex_t	*meal_mutex;
-	pthread_mutex_t	*sleep_mutex;
-	pthread_mutex_t	*write_mutex;
-	pthread_mutex_t	fork;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	int				id;
@@ -51,11 +46,7 @@ typedef struct s_data
 {
 	int				time;
 	int				nb_philos;
-	//pthread_t		waiter;
-	pthread_mutex_t	start_philo;
-	pthread_mutex_t	meal_mutex;
-	pthread_mutex_t	sleep_mutex;
-	pthread_mutex_t	write_mutex;
+	pthread_mutex_t	*forks;
 	t_philo			*philos;
 }				t_data;
 

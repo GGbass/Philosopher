@@ -6,33 +6,36 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/27 01:30:49 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/17 13:01:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher.h"
 
-
-/* void	waiter_routine(t_philo *philos)
+void	thread_values(t_data *data)
 {
 	int i;
 
 	i = 0;
-	while (i < philos->nb_philos)
+	data->forks = ft_calloc(data->philos->nb_philos, sizeof(pthread_mutex_t));
+	if (!data->forks)
+		(perror("Error creating forks"), free_data(data));
+	while(i < data->philos->nb_philos && !pthread_mutex_init(&data->forks[i], NULL))
 	{
-		pthread_mutex_lock(&philos->meal_mutex);
-		if (philos[i].times_each_must_eat == 0)
-			i++;
-		pthread_mutex_unlock(&philos->meal_mutex);
+		data->philos[i].id = i;
+		data->philos[i].start_time = (int )get_time();
+		data->philos[i].time_to_eat = data->philos->time_to_eat;
+		data->philos[i].time_to_sleep = data->philos->time_to_sleep;
+		data->philos[i].time_to_die = data->philos->time_to_die;
+		data->philos[i].nb_philos = data->philos->nb_philos;
+		data->philos[i].times_each_must_eat = data->philos->times_each_must_eat;
+		data->philos[i].left_fork = &data->forks[i];
+		if (i + 1 == data->philos->nb_philos)
+			data->philos[i].right_fork = &data->forks[0];
+		else
+			data->philos[i].right_fork = &data->forks[i + 1];
+		i++;
 	}
-	pthread_mutex_lock(&philos->write_mutex);
-	printf("All philos ate %d times\n", waiter->times_each_must_eat);
-	pthread_mutex_unlock(&waiter->write_mutex);
-} */
-
-void	data_init(t_data *data)
-{
-	thread_values(data);
 }
 
 void	thread_init(t_data *data)
@@ -40,9 +43,7 @@ void	thread_init(t_data *data)
 	int	i;
 
 	data->time = get_time();
-	pthread_mutex_lock(&data->start_philo);
-	data_init(data);
-	pthread_mutex_unlock(&data->start_philo);
+	thread_values(data);
 	i = 0;
 	while (i < data->philos->nb_philos)
 	{
@@ -57,7 +58,7 @@ void	thread_init(t_data *data)
 	}
 }
 
-t_data	*init_mutex(int argc, char **argv)
+t_data	*init_values(int argc, char **argv)
 {
 	t_data	*data;
 
@@ -67,14 +68,14 @@ t_data	*init_mutex(int argc, char **argv)
 	data->philos = ft_calloc(ft_atoi(argv[1]), sizeof(t_philo));
 	if (!data->philos)
 		free_data(data);
+	data->philos->nb_philos = ft_atoi(argv[1]);
+	data->philos->time_to_die = ft_atoi(argv[2]);
+	data->philos->time_to_eat = ft_atoi(argv[3]);
+	data->philos->time_to_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
 		data->philos->times_each_must_eat = ft_atoi(argv[5]);
 	else
 		data->philos->times_each_must_eat = -1;
-	pthread_mutex_init(&data->start_philo, NULL);
-	pthread_mutex_init(&data->meal_mutex, NULL);
-	pthread_mutex_init(&data->sleep_mutex, NULL);
-	pthread_mutex_init(&data->write_mutex, NULL);
 	return (data);
 }
 
@@ -85,7 +86,7 @@ int	main(int argc, char **argv)
 	data = NULL;
 	if (!check_argv(argc, argv))
 		return (0);
-	data = init_mutex(argc, argv);
+	data = init_values(argc, argv);
 	thread_init(data);
 	free_data(data);
 	return (0);
