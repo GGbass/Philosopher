@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/17 12:39:54 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/17 15:30:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	int				id;
-	int				dead_flag;
+	int				*dead_flag;
 	int				time_to_eat;
 	int				last_meal;
 	int				time_to_sleep;
@@ -44,6 +44,7 @@ typedef struct s_philo
 
 typedef struct s_data
 {
+	int				dead_flag;
 	int				time;
 	int				nb_philos;
 	pthread_mutex_t	*forks;
@@ -61,5 +62,6 @@ void	philo_and_fork_assigner(t_data *data);
 void	*routine(t_philo *philos);
 void	thread_values(t_data *data);
 void	print_thread(t_philo *philos, int id, char *str);
+void	think(t_philo *philos);
 
 #endif

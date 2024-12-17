@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:24:21 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/17 11:18:07 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/17 15:30:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,3 +20,7 @@ void	print_thread(t_philo *philos, int id, char *str)
 	printf("%ld %d %s\n", time, id, str);
 }
 
+void	think(t_philo *philos)
+{
+	print_thread(philos, philos->id, PHILO_THINK);
+}
