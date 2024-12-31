@@ -1,17 +1,3 @@
-routine
+check if a philosopher can sleep time enoug or die in between
 
-think
-if id != n-1
-	thread[?] waiting for left fork
-	wait for right
-else 
-	thread[last] waiting for right fork
-	wait for left
-eating
-if id != n-1
-	unlock left fork
-	unlock  right
-else 
-	unlock right fork
-	unlock left
-sleep
+the same for thinking function !

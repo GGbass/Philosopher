@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/17 15:30:51 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/31 16:45:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philo
 	int				last_meal;
 	int				time_to_sleep;
 	int				time_to_die;
+	int				ms_to_die;
 	int				nb_philos;
 	int				start_time;
 	int				times_each_must_eat;

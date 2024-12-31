@@ -1,4 +1,5 @@
 .vscode
+philo
 subject
 *.o
-todo.txt
+todo
