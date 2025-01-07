@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/31 16:45:23 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/07 19:23:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define PHILO_SLEEP "\033[1;95mis sleeping 🌙\033[0;39m"
 # define PHILO_THINK "\033[1;90mis thinking 💭\033[0;39m"
 # define PHILO_TAKE_FORK "\033[1;94mhas taken a fork 🍴\033[0;39m"
+# define PHILO_RELEASE_FORK "\033[1;94mhas release a fork 🍴\033[0;39m"
 # define PHILO_DIE "\033[1;91mdied 💀\033[0;39m"
 
 typedef struct s_philo
