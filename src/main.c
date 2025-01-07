@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/29 20:35:10 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/01 20:57:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ void	thread_values(t_data *data)
 		(perror("Error creating forks"), free_data(data));
 	while (i < data->nb_philos && !(pthread_mutex_init(&data->forks[i], NULL)))
 	{
-		data->philos[i].id = i;
+		data->philos[i].id = i + 1;
 		data->philos[i].start_time = (int )get_time();
 		data->philos[i].time_to_eat = data->philos->time_to_eat;
 		data->philos[i].time_to_sleep = data->philos->time_to_sleep;
 		data->philos[i].time_to_die = data->philos->time_to_die;
 		data->philos[i].nb_philos = data->nb_philos;
 		data->philos[i].times_each_must_eat = data->philos->times_each_must_eat;
-		data->philos[i].left_fork = &data->forks[i];
 		data->philos[i].dead_flag = &data->dead_flag;
+		data->philos[i].left_fork = &data->forks[i];
 		if (i + 1 == data->philos->nb_philos)
 			data->philos[i].right_fork = &data->forks[0];
 		else
