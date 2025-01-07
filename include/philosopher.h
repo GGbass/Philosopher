@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/07 19:23:01 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/07 21:45:31 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ typedef struct s_philo
 	pthread_t		thread;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	*print;
+	pthread_mutex_t	*meal;
+	pthread_mutex_t	*dead;
 	int				id;
 	int				*dead_flag;
 	int				time_to_eat;
@@ -50,6 +53,9 @@ typedef struct s_data
 	int				time;
 	int				nb_philos;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	print;
+	pthread_mutex_t	meal;
+	pthread_mutex_t	dead;
 	t_philo			*philos;
 }				t_data;
 

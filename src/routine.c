@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 23:57:47 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/07 19:31:45 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/07 21:42:16 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ void	sleeping(t_philo *philos)
 
 void	take_forks(t_philo *philos)
 {
-	//if (philos->id == philos->nb_philos - 1)
-	if (philos->id % 2 == 0  && philos->nb_philos % 2)
+	if (philos->id % 2 == 0 && philos->nb_philos % 2)
 	{
 		pthread_mutex_lock(philos->left_fork);
 		print_thread(philos, philos->id, PHILO_TAKE_FORK);
@@ -78,7 +77,6 @@ int	check_philo(t_philo *philos)
 		return (0);
 	if ((int )get_time() >= philos->time_to_die)
 	{
-		//printf("  remining time =  %d  and  time to die =  %d \n",(int )get_time(), philos->time_to_die);
 		*philos->dead_flag = 1;
 		print_thread(philos, philos->id, PHILO_DIE);
 		return (0);
@@ -101,8 +99,10 @@ int	eating(t_philo *philos)
 	philos->last_meal = (int )get_time();
 	philos->time_to_die = philos->last_meal + philos->ms_to_die;
 	printf("Time to die: %d\n", philos->time_to_die);
-	ft_usleep(philos->time_to_eat);//
-	//Verificas cada cierto tiempo 0,1 - 0,5 milisegundos si el filosofo sigue vivo
+	if (philos->time_to_eat + (int)get_time() >= philos->time_to_die)
+		ft_usleep(philos->time_to_die - (int)get_time());
+	else
+		ft_usleep(philos->time_to_eat);//
 	release_forks(philos);
 	if (philos->times_each_must_eat != -1)
 		philos->times_each_must_eat--;
@@ -110,7 +110,7 @@ int	eating(t_philo *philos)
 }
 
 void	*routine(t_philo *philos)
-{	
+{
 	philos->start_time = (int )get_time();
 	philos->last_meal = philos->start_time;
 	philos->ms_to_die = philos->time_to_die;
