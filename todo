@@ -1,3 +1,1 @@
-mutex missing for eat , dead , meal and writing
-
-mutex 
+looks like we are creating an extra fork 

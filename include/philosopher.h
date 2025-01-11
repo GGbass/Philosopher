@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/07 21:45:31 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/01/11 18:51:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,28 @@
 
 typedef struct s_philo
 {
-	pthread_t		thread;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	*print;
-	pthread_mutex_t	*meal;
-	pthread_mutex_t	*dead;
-	int				id;
-	int				*dead_flag;
-	int				time_to_eat;
-	int				last_meal;
-	int				time_to_sleep;
-	int				time_to_die;
-	int				ms_to_die;
-	int				nb_philos;
-	int				start_time;
-	int				times_each_must_eat;
-}					t_philo;
+	pthread_t			thread;
+	pthread_mutex_t		*left_fork;
+	pthread_mutex_t		*right_fork;
+	pthread_mutex_t		*print;
+	pthread_mutex_t		*meal;
+	pthread_mutex_t		*dead;
+	int					id;
+	int					*dead_flag;
+	size_t					time_to_eat;
+	size_t				last_meal;
+	size_t				time_to_sleep;
+	size_t				time_to_die;
+	size_t				ms_to_die;
+	size_t				start_time;
+	int					nb_philos;
+	int					times_each_must_eat;
+}						t_philo;
 
 typedef struct s_data
 {
 	int				dead_flag;
-	int				time;
+	size_t				time;
 	int				nb_philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
@@ -68,7 +68,7 @@ void	*ft_calloc(size_t n_memb, size_t size);
 int		ft_usleep(size_t time);
 void	philo_and_fork_assigner(t_data *data);
 void	*routine(t_philo *philos);
-void	thread_values(t_data *data);
+//void	thread_values(t_data *data);
 void	print_thread(t_philo *philos, int id, char *str);
 void	think(t_philo *philos);
 
