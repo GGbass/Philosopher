@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 23:57:47 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/11 19:33:41 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/13 13:36:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	take_forks(t_philo *philos)
 		pthread_mutex_lock(philos->left_fork);
 		print_thread(philos, philos->id, PHILO_TAKE_FORK);
 		printf("%p\n", philos->left_fork);
-
 	}
+	//last philospher is taking a wrong fork which is not even created but counted too eat
 }
 
 void	release_forks(t_philo *philos)
