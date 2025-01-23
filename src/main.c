@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/13 13:34:49 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/23 00:37:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,14 @@ static void	mutex_init(t_data *data)
 	pthread_mutex_init(&data->print, NULL);
 	pthread_mutex_init(&data->meal, NULL);
 	pthread_mutex_init(&data->dead, NULL);
-	while(i < data->nb_philos && !(pthread_mutex_init(&data->forks[i], NULL)))
+	while(i < data->nb_philos)
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+			(perror("Error creating forks"), free_data(data));
+		i++;
+	}
+	i = 0;
+	while(i < data->nb_philos)
 	{
 		data->philos[i].print = &data->print;
 		data->philos[i].meal = &data->meal;
@@ -42,7 +49,6 @@ static void	thread_values(t_data *data)
 	int	i;
 
 	i = 0;
-	mutex_init(data);
 	while (i < data->nb_philos)
 	{
 		data->philos[i].id = i + 1;
@@ -54,6 +60,7 @@ static void	thread_values(t_data *data)
 		data->philos[i].dead_flag = &data->dead_flag;
 		i++;
 	}
+	mutex_init(data);
 }
 
 static void	thread_init(t_data *data)

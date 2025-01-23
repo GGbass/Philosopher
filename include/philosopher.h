@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/11 18:51:43 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/23 00:44:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	philo_and_fork_assigner(t_data *data);
 void	*routine(t_philo *philos);
 //void	thread_values(t_data *data);
 void	print_thread(t_philo *philos, int id, char *str);
-void	think(t_philo *philos);
+int	think(t_philo *philos);
+int	check_philo(t_philo *philos);
 
 #endif

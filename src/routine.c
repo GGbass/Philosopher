@@ -6,14 +6,16 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 23:57:47 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/13 13:36:49 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/23 20:00:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher.h"
 
-void	sleeping(t_philo *philos)
+static int	sleeping(t_philo *philos)
 {
+	if (!check_philo(philos))
+		return (0);
 	print_thread(philos, philos->id, PHILO_SLEEP);
 	//printf("time to sleep + current %d >= %d \n", philos->time_to_sleep + (int)get_time(), philos->time_to_die);
 	if (philos->time_to_sleep + get_time() >= philos->time_to_die)
@@ -22,12 +24,14 @@ void	sleeping(t_philo *philos)
 	}
 	else
 		ft_usleep(philos->time_to_sleep);
+	return (1);
 }
 
 void	take_forks(t_philo *philos)
 {
 	if (philos->id % 2 == 0 && philos->nb_philos % 2)
 	{
+		usleep(100);
 		pthread_mutex_lock(philos->left_fork);
 		pthread_mutex_lock(philos->print);
 		print_thread(philos, philos->id, PHILO_TAKE_FORK);
@@ -41,6 +45,7 @@ void	take_forks(t_philo *philos)
 	}
 	else
 	{
+		usleep(100);
 		pthread_mutex_lock(philos->right_fork);
 		print_thread(philos, philos->id, PHILO_TAKE_FORK);
 		printf("%p\n", philos->right_fork);
@@ -48,7 +53,6 @@ void	take_forks(t_philo *philos)
 		print_thread(philos, philos->id, PHILO_TAKE_FORK);
 		printf("%p\n", philos->left_fork);
 	}
-	//last philospher is taking a wrong fork which is not even created but counted too eat
 }
 
 void	release_forks(t_philo *philos)
@@ -59,7 +63,6 @@ void	release_forks(t_philo *philos)
 		pthread_mutex_lock(philos->print);
 		print_thread(philos, philos->id, PHILO_RELEASE_FORK);
 		printf("%p\n", philos->right_fork);
-		
 		pthread_mutex_unlock(philos->left_fork);
 		print_thread(philos, philos->id, PHILO_RELEASE_FORK);
 		printf("%p\n", philos->left_fork);
@@ -82,16 +85,17 @@ int	check_philo(t_philo *philos)
 {
 	if (philos->times_each_must_eat == 0 || *philos->dead_flag == 1)
 		return (0);
+	usleep(100);
+	pthread_mutex_lock(philos->dead);
 	if (get_time() >= philos->time_to_die)
 	{
 		*philos->dead_flag = 1;
-		pthread_mutex_lock(philos->dead);
+		//pthread_mutex_lock(philos->dead);
 		print_thread(philos, philos->id, PHILO_DIE);
 		pthread_mutex_unlock(philos->dead);
 		return (0);
 	}
-	if (*philos->dead_flag == 1)
-		return (0);
+	pthread_mutex_unlock(philos->dead);
 	return (1);
 }
 
@@ -114,15 +118,15 @@ int	eating(t_philo *philos)
 		ft_usleep(philos->time_to_die - get_time());
 	else
 		ft_usleep(philos->time_to_eat);//
-	release_forks(philos);
 	if (philos->times_each_must_eat != -1)
 		philos->times_each_must_eat--;
+	release_forks(philos);
 	return (1);
 }
 
 void	*routine(t_philo *philos)
 {
-	ft_usleep(5);
+	ft_usleep(10);
 	philos->start_time = get_time();
 	philos->last_meal = philos->start_time;
 	philos->ms_to_die = philos->time_to_die;
@@ -136,15 +140,15 @@ void	*routine(t_philo *philos)
 			return (NULL);
 		}
 		if (philos->id % 2 == 0)
-			ft_usleep(5); 
+			ft_usleep(3);
 		if (!eating(philos))
 		{
 			return (NULL);
 		}
-		if (check_philo(philos))
-			sleeping(philos);
-		if(check_philo(philos))
-			think(philos);
+		if (!sleeping(philos))
+			return (NULL);
+		if (!think(philos))
+			return (NULL);
 		if (philos->times_each_must_eat == 0)
 			return (NULL);
 	}
