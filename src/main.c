@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/23 00:37:48 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/24 00:28:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ static void	mutex_init(t_data *data)
 	i = 0;
 	data->forks = ft_calloc(data->philos->nb_philos, sizeof(pthread_mutex_t));
 	if (!data->forks)
-		(perror("Error creating forks"), free_data(data));
+		(write(2, "Error creating forks", 20), free_data(data));
 	pthread_mutex_init(&data->print, NULL);
 	pthread_mutex_init(&data->meal, NULL);
 	pthread_mutex_init(&data->dead, NULL);
 	while(i < data->nb_philos)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
-			(perror("Error creating forks"), free_data(data));
+			(write(2, "Error creating forks", 20), free_data(data));
 		i++;
 	}
 	i = 0;
