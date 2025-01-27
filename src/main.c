@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/26 00:23:09 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/01/27 23:24:56 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,23 @@ static void	thread_values(t_data *data)
 		data->philos[i].dead_flag = &data->dead_flag;
 		i++;
 	}
+/* 	data->forks = ft_calloc(data->philos->nb_philos, sizeof(pthread_mutex_t));
+	if (!data->forks)
+		(write(2, "Error creating forks", 20), free_data(data));
+	while (i < data->nb_philos)
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+			(write(2, "Error creating forks", 20), free_data(data));
+		i++;
+	} */
 	mutex_init(data);
 }
 
 static void	thread_init(t_data *data)
 {
 	int		i;
-	t_philo	*philos;
+	pthread_t	monitorer;
+	t_philo		*philos;
 
 	philos = data->philos;
 	data->time = get_time();
@@ -74,10 +84,14 @@ static void	thread_init(t_data *data)
 	i = 0;
 	while (i < philos->nb_philos)
 	{
-		pthread_create(&philos[i].thread, NULL, (void *)routine, &philos[i]);
+		if (pthread_create(&philos[i].thread, NULL, (void *)routine, &philos[i]) != 0)
+			(write(2, "Error creating threads", 20), free_data(data));
 		i++;
 	}
+	if (pthread_create(&monitorer, NULL, (void *)monitor, &data) != 0)
+		(write(2, "Error creating monitor thread", 20), free_data(data));
 	i = 0;
+	pthread_join(monitorer, NULL);
 	while (i < philos->nb_philos)
 	{
 		pthread_join(philos[i].thread, NULL);
@@ -89,13 +103,13 @@ static t_data	*init_values(int argc, char **argv)
 {
 	t_data	*data;
 
-	data = ft_calloc(1, sizeof(t_data));
+	data = (t_data *)ft_calloc(1, sizeof(t_data));
 	if (!data)
 		free_data(data);
 	data->philos = ft_calloc(ft_atoi(argv[1]), sizeof(t_philo));
 	if (!data->philos)
 		free_data(data);
-	data->nb_philos = ft_atoi(argv[1]);
+	data->nb_philos = ft_atoi(argv[1] + 1);
 	data->philos->time_to_die = (size_t)ft_atoi(argv[2]);
 	data->philos->time_to_eat = (size_t)ft_atoi(argv[3]);
 	data->philos->time_to_sleep = (size_t)ft_atoi(argv[4]);
@@ -115,6 +129,7 @@ int	main(int argc, char **argv)
 	if (!check_argv(argc, argv))
 		return (0);
 	data = init_values(argc, argv);
+	data->nb_philos = ft_atoi(argv[1]);
 	thread_init(data);
 	free_data(data);
 	return (0);

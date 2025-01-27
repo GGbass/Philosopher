@@ -14,7 +14,8 @@ NAME = philo
 
 NAMEB = bonus
 
-SRC =	./src/routine.c \
+SRC =	./src/monitoring.c \
+		./src/routine.c \
 		./src/check_argv.c \
 		./src/tools2.c \
 		./src/tools.c \

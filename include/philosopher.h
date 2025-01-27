@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/23 00:44:54 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/27 22:49:47 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,11 @@ int		check_argv(int argc, char **argv);
 void	free_data(t_data *data);
 void	*ft_calloc(size_t n_memb, size_t size);
 int		ft_usleep(size_t time);
-void	philo_and_fork_assigner(t_data *data);
 void	*routine(t_philo *philos);
+void	*monitor(t_data *data);
 //void	thread_values(t_data *data);
 void	print_thread(t_philo *philos, int id, char *str);
 int	think(t_philo *philos);
-int	check_philo(t_philo *philos);
+int	check_philos(t_data *data);
 
 #endif
