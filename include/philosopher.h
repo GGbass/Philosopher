@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/27 22:49:47 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/01/29 00:35:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define PHILO_RELEASE_FORK "\033[1;94mhas release a fork 🍴\033[0;39m"
 # define PHILO_DIE "\033[1;91mdied 💀\033[0;39m"
 
+//typedef struct s_data t_data;
+
 typedef struct s_philo
 {
 	pthread_t			thread;
@@ -35,6 +37,7 @@ typedef struct s_philo
 	pthread_mutex_t		*print;
 	pthread_mutex_t		*meal;
 	pthread_mutex_t		*dead;
+	pthread_mutex_t		*start;
 	int					id;
 	int					*dead_flag;
 	size_t					time_to_eat;
@@ -52,6 +55,7 @@ typedef struct s_data
 	int				dead_flag;
 	size_t				time;
 	int				nb_philos;
+	pthread_mutex_t	start;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	meal;
@@ -59,18 +63,20 @@ typedef struct s_data
 	t_philo			*philos;
 }				t_data;
 
+
 size_t	get_time(void);
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
+void	print_values(t_data *data);
 int		check_argv(int argc, char **argv);
 void	free_data(t_data *data);
 void	*ft_calloc(size_t n_memb, size_t size);
 int		ft_usleep(size_t time);
-void	*routine(t_philo *philos);
-void	*monitor(t_data *data);
+void	*routine(void *philo);
+void	monitor(void *philos_in);
 //void	thread_values(t_data *data);
 void	print_thread(t_philo *philos, int id, char *str);
 int	think(t_philo *philos);
-int	check_philos(t_data *data);
+int	check_philos(t_philo *philos);
 
 #endif

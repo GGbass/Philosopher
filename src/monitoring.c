@@ -3,14 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   monitoring.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:43:45 by gongarci          #+#    #+#             */
-/*   Updated: 2025/01/27 23:26:45 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/01/29 00:38:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher.h"
+
+/* static void	print_threads_values(t_philo *philos)
+{
+	int i;
+
+	i = -1;
+	while (++i < philos->nb_philos)
+	{
+		pthread_mutex_lock(philos[i].print);
+		printf("address: %p\n", &philos[i]);
+		printf("id: %d\n", philos[i].id);
+		printf("time_to_eat: %zu\n", philos[i].time_to_eat);
+		printf("time_to_sleep: %zu\n", philos[i].time_to_sleep);
+		printf("time_to_die: %zu\n", philos[i].time_to_die);
+		printf("ms_to_die: %zu\n", philos[i].ms_to_die);
+		printf("start_time: %zu\n", philos[i].start_time);
+		printf("last_meal: %zu\n", philos[i].last_meal);
+		printf("nb_philos: %d\n", philos[i].nb_philos);
+		printf("times_each_must_eat: %d\n", philos->times_each_must_eat);
+		printf("dead_flag: %d\n", *philos[i].dead_flag);
+		pthread_mutex_unlock(philos->print);
+	}
+} */
 
 static int	everyone_ate(t_philo *philos)
 {
@@ -27,56 +50,61 @@ static int	everyone_ate(t_philo *philos)
 		if (philos[i].times_each_must_eat == 0)
 			ate++;
 		if (ate == philos->nb_philos)
+		{
+			pthread_mutex_lock(philos->dead);
+			*philos->dead_flag = 1;
+			pthread_mutex_unlock(philos->dead);
 			return (0);
+		}
 		i++;
 	}
 	return (1);
 }
 
-int	check_philos(t_data *data)
+int	check_philos(t_philo *philos)
 {
 	int i;
-	t_philo *philos;
 
-	philos = data->philos;
 	i = 0;
-	printf("inside check_philos%d\n", data->nb_philos);
-	while(i < data->philos->nb_philos)
+	while(i < philos->nb_philos)
 	{
-		usleep(100);
 		pthread_mutex_lock(philos[i].dead);
-		if (get_time() >= philos[i].time_to_die && !*philos[i].dead_flag)
+		if (get_time() >= philos[i].time_to_die)
 		{
-			//*philos[i].dead_flag = 1;
+			*philos[i].dead_flag = 1;
 			print_thread(&philos[i], philos[i].id, PHILO_DIE);
 			pthread_mutex_unlock(philos[i].dead);
 			return (0);
 		}
 		pthread_mutex_unlock(philos[i].dead);
+		usleep(100);
 		i++;
 	}
 	return (1);
 }
 
-void	*monitor(t_data *data)
+void	monitor(void *philos_in)
 {
-	t_philo	*philos;
+	t_philo *philos;
 
-	data->dead_flag = 0;
-	philos = data->philos;
-	printf("inside monitor %d\n", data->nb_philos);
+	philos = (t_philo *)philos_in;
+	//printf("philos nb %d\n", philos->nb_philos);
+	usleep(50);
 	while(1)
 	{
-		//printf("inside monitor %d\n");
-		if (!check_philos(data) || !everyone_ate(philos))
+		if (philos->times_each_must_eat == 0 || *philos->dead_flag == 1)
 		{
 			pthread_mutex_lock(philos->dead);
-			data->dead_flag = 1;
+			*philos->dead_flag = 1;
 			pthread_mutex_unlock(philos->dead);
-			//return (0);
-			return (NULL);
+			break ;
+		}
+		if (!check_philos(philos) || !everyone_ate(philos))
+		{
+			break ;
 		}
 		usleep(100);
+		//print_thread_values(philos);
 	}
-	return (NULL);
+	return ;
 }
