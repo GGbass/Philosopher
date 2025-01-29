@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:24:21 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/27 20:23:22 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/01/29 23:02:27 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	print_thread(t_philo *philos, int id, char *str)
 
 int	think(t_philo *philos)
 {
-	/* 	if (!check_philo(philos) || *philos->dead_flag == 1)
-		return (0); */
+	if (!alive_status(philos))
+		return (0);
 	print_thread(philos, philos->id, PHILO_THINK);
 	return (1);
 }

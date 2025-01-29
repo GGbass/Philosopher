@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:43:46 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/11 18:56:41 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/29 23:07:31 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	*ft_calloc(size_t n_memb, size_t size)
 	return (ptr);
 }
 
-size_t	get_time(void)
+long	get_time(void)
 {
 	struct timeval	tv;
 	size_t			time;

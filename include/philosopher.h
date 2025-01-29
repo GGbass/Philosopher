@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/29 00:35:20 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/29 23:01:46 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ typedef struct s_philo
 	pthread_mutex_t		*start;
 	int					id;
 	int					*dead_flag;
-	size_t					time_to_eat;
-	size_t				last_meal;
-	size_t				time_to_sleep;
-	size_t				time_to_die;
-	size_t				ms_to_die;
-	size_t				start_time;
+	long					time_to_eat;
+	long				last_meal;
+	long				time_to_sleep;
+	long				time_to_die;
+	long				ms_to_die;
+	long				start_time;
 	int					nb_philos;
 	int					times_each_must_eat;
 }						t_philo;
@@ -64,7 +64,7 @@ typedef struct s_data
 }				t_data;
 
 
-size_t	get_time(void);
+long	get_time(void);
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
 void	print_values(t_data *data);
@@ -73,6 +73,7 @@ void	free_data(t_data *data);
 void	*ft_calloc(size_t n_memb, size_t size);
 int		ft_usleep(size_t time);
 void	*routine(void *philo);
+int		alive_status(t_philo *philos);
 void	monitor(void *philos_in);
 //void	thread_values(t_data *data);
 void	print_thread(t_philo *philos, int id, char *str);

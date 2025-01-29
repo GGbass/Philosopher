@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/29 00:34:13 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/29 23:02:59 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ void	print_values(t_data *data)
 	printf("time_to_eat: %zu\n", data->philos->time_to_eat);
 	printf("time_to_sleep: %zu\n", data->philos->time_to_sleep);
 	printf("times_each_must_eat: %d\n", data->philos->times_each_must_eat);
+	printf("time to start: %zu\n", data->time);
+	printf("time to die: %zu\n", data->philos->time_to_die);
+	printf("time to eat: %zu\n", data->philos->time_to_eat);
+	printf("time to sleep: %zu\n", data->philos->time_to_sleep);
+	printf("ms to die: %zu\n", data->philos->ms_to_die);
 }
 
 static void	mutex_init(t_data *data)
@@ -58,29 +63,26 @@ static void	mutex_init(t_data *data)
 static void	thread_values(t_data *data)
 {
 	int	i;
+	t_philo	*philo;
 
+	philo = data->philos;
 	i = 0;
 	while (i < data->nb_philos)
 	{
 		
-		data->philos[i].id = i + 1;
-		data->philos[i].time_to_eat = data->philos->time_to_eat;
-		data->philos[i].time_to_sleep = data->philos->time_to_sleep;
-		data->philos[i].time_to_die = data->philos->time_to_die;
-		data->philos[i].nb_philos = data->nb_philos;
-		data->philos[i].times_each_must_eat = data->philos->times_each_must_eat;
-		data->philos[i].dead_flag = &data->dead_flag;
+		philo[i].id = i + 1;
+		philo[i].time_to_eat = data->philos->time_to_eat;
+		philo[i].time_to_sleep = data->philos->time_to_sleep;
+		philo[i].time_to_die = data->philos->time_to_die;
+		philo[i].nb_philos = data->nb_philos;
+		philo[i].times_each_must_eat = data->philos->times_each_must_eat;
+		philo[i].dead_flag = &data->dead_flag;
+		philo[i].start_time = get_time();
+		philo[i].last_meal = get_time();
+		philo[i].ms_to_die = philo[i].time_to_die;
+		philo[i].time_to_die = philo[i].last_meal + philo[i].ms_to_die;
 		i++;
 	}
-/* 	data->forks = ft_calloc(data->philos->nb_philos, sizeof(pthread_mutex_t));
-	if (!data->forks)
-		(write(2, "Error creating forks", 20), free_data(data));
-	while (i < data->nb_philos)
-	{
-		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
-			(write(2, "Error creating forks", 20), free_data(data));
-		i++;
-	} */
 	mutex_init(data);
 }
 
@@ -95,6 +97,7 @@ static void	thread_init(t_data *data)
 	data->time = get_time();
 	thread_values(data);
 	print_values(data);
+	//exit(0);
 	pthread_mutex_lock(&data->start);
 	while (i < philos->nb_philos)
 	{
@@ -105,9 +108,9 @@ static void	thread_init(t_data *data)
 	if (pthread_create(&monitorer, NULL, (void *)monitor, philos) != 0)
 		(write(2, "Error creating monitor thread", 20), free_data(data));
 	pthread_mutex_unlock(&data->start);
+	i = 0;
 	if (pthread_join(monitorer, NULL) != 0)
 		(write(2, "Error joining monitor thread", 20), free_data(data));
-	i = 0;
 	while (i < philos->nb_philos)
 	{
 		pthread_join(philos[i].thread, NULL);
@@ -126,9 +129,9 @@ static t_data	*init_values(int argc, char **argv)
 	if (!data->philos)
 		free_data(data);
 	data->nb_philos = ft_atoi(argv[1]);
-	data->philos->time_to_die = (size_t)ft_atoi(argv[2]);
-	data->philos->time_to_eat = (size_t)ft_atoi(argv[3]);
-	data->philos->time_to_sleep = (size_t)ft_atoi(argv[4]);
+	data->philos->time_to_die = (long)ft_atoi(argv[2]);
+	data->philos->time_to_eat = (long)ft_atoi(argv[3]);
+	data->philos->time_to_sleep = (long)ft_atoi(argv[4]);
 	if (argc == 6)
 		data->philos->times_each_must_eat = ft_atoi(argv[5]);
 	else
