@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:43:46 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/29 23:07:31 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/01 19:08:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	*ft_calloc(size_t n_memb, size_t size)
 long	get_time(void)
 {
 	struct timeval	tv;
-	size_t			time;
+	long			time;
 
 	gettimeofday(&tv, NULL);
 	time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
@@ -80,7 +80,7 @@ int	ft_usleep(size_t time)
 	size_t	start;
 
 	start = get_time();
-	while (get_time() - start < time)
+	while ((get_time() - start) < time)
 		usleep(50);
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/29 23:02:59 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/03 00:22:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 void	print_values(t_data *data)
 {
 	printf("nb_philos: %d\n", data->nb_philos);
-	printf("time_to_die: %zu\n", data->philos->time_to_die);
 	printf("time_to_eat: %zu\n", data->philos->time_to_eat);
 	printf("time_to_sleep: %zu\n", data->philos->time_to_sleep);
 	printf("times_each_must_eat: %d\n", data->philos->times_each_must_eat);
 	printf("time to start: %zu\n", data->time);
 	printf("time to die: %zu\n", data->philos->time_to_die);
+	printf("current - start: %zu\n", get_time() - data->time);
 	printf("time to eat: %zu\n", data->philos->time_to_eat);
 	printf("time to sleep: %zu\n", data->philos->time_to_sleep);
 	printf("ms to die: %zu\n", data->philos->ms_to_die);
@@ -69,7 +69,6 @@ static void	thread_values(t_data *data)
 	i = 0;
 	while (i < data->nb_philos)
 	{
-		
 		philo[i].id = i + 1;
 		philo[i].time_to_eat = data->philos->time_to_eat;
 		philo[i].time_to_sleep = data->philos->time_to_sleep;
@@ -94,13 +93,14 @@ static void	thread_init(t_data *data)
 
 	i = 0;
 	philos = data->philos;
-	data->time = get_time();
 	thread_values(data);
-	print_values(data);
-	//exit(0);
+	//print_values(data);
 	pthread_mutex_lock(&data->start);
 	while (i < philos->nb_philos)
 	{
+		/* philos[i].start_time = get_time();
+		philos[i].last_meal = get_time();
+		philos[i].time_to_die = philos[i].last_meal + philos[i].ms_to_die; */
 		if (pthread_create(&philos[i].thread, NULL, (void *)routine, &philos[i]) != 0)
 			(write(2, "Error creating threads", 20), free_data(data));
 		i++;

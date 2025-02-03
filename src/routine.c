@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 23:57:47 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/29 23:05:37 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:40:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,43 +46,39 @@ void	take_forks(t_philo *philos)
 {
 	if (philos->id % 2)
 	{
+		usleep(100);
 		pthread_mutex_lock(philos->left_fork);
 		print_thread(philos, philos->id, PHILO_TAKE_FORK);
-		printf("%p\n", philos->left_fork);
+		//printf("impar %d\n", philos->id);
+		//printf("%p\n", philos->left_fork);
+		usleep(100);
 		pthread_mutex_lock(philos->right_fork);
 		print_thread(philos, philos->id, PHILO_TAKE_FORK);
-		printf("%p\n", philos->right_fork);
+		//printf("%p\n", philos->right_fork);
 	}
-	else
+	else if (philos->id % 2 == 0)
 	{
 		pthread_mutex_lock(philos->right_fork);
 		print_thread(philos, philos->id, PHILO_TAKE_FORK);
-		printf("%p\n", philos->right_fork);
+		//printf("%p\n", philos->right_fork);
 		pthread_mutex_lock(philos->left_fork);
 		print_thread(philos, philos->id, PHILO_TAKE_FORK);
-		printf("%p\n", philos->left_fork);
+		//printf("%p\n", philos->left_fork);
 	}
 }
 
 void	release_forks(t_philo *philos)
 {
-	if (philos->id % 2 == 1)
+	if (philos->id % 2)
 	{
+		//ft_usleep(100);
 		pthread_mutex_unlock(philos->right_fork);
-		//print_thread(philos, philos->id, PHILO_RELEASE_FORK);
-		//printf("%p\n", philos->right_fork);
 		pthread_mutex_unlock(philos->left_fork);
-		//print_thread(philos, philos->id, PHILO_RELEASE_FORK);
-		//printf("%p\n", philos->left_fork);
 	}
 	else
 	{
 		pthread_mutex_unlock(philos->left_fork);
-		//print_thread(philos, philos->id, PHILO_RELEASE_FORK);
-		//printf("%p\n", philos->left_fork);
 		pthread_mutex_unlock(philos->right_fork);
-		//print_thread(philos, philos->id, PHILO_RELEASE_FORK);
-		//printf("%p\n", philos->right_fork);
 	}
 }
 
@@ -99,16 +95,24 @@ int	eating(t_philo *philos)
 		return (0);
 	}
 	pthread_mutex_lock(philos->meal);
-	print_thread(philos, philos->id, PHILO_EAT);
 	philos->last_meal = get_time();
-	pthread_mutex_lock(philos->dead);
+	print_thread(philos, philos->id, PHILO_EAT);
 	philos->time_to_die = philos->last_meal + philos->ms_to_die;
-	pthread_mutex_unlock(philos->dead);
 	ft_usleep(philos->time_to_eat);
 	pthread_mutex_unlock(philos->meal);
+	//pthread_mutex_lock(philos->dead);
+	//pthread_mutex_unlock(philos->dead);
 	release_forks(philos);
-	if (philos->times_each_must_eat != -1)
+	if (philos->times_each_must_eat > 0)
+	{
 		philos->times_each_must_eat--;
+		/* pthread_mutex_lock(philos->meal);
+		if (philos->times_each_must_eat != -1)
+			philos->times_each_must_eat--;
+		pthread_mutex_unlock(philos->meal); */
+	}
+	if (philos->times_each_must_eat == 0)
+		return (0);
 	return (1);
 }
 
@@ -117,11 +121,10 @@ void	*routine(void *philo)
 	t_philo	*philos;
 	
 	philos = (t_philo *)philo;
-	//ft_usleep(5);
 	pthread_mutex_lock(philos->start);
 	pthread_mutex_unlock(philos->start);
-	if (philos->id % 2 == 1)
-			ft_usleep(philos->time_to_eat);
+	/* if (philos->id % 2 == 0)
+		ft_usleep(philos->time_to_eat / 2); */
 	while (alive_status(philos))
 	{
 		if (philos->id % 2 == 0)
@@ -131,8 +134,6 @@ void	*routine(void *philo)
 		if (!sleeping(philos))
 			return (NULL);
 		if (!think(philos))
-			return (NULL);
-		if (philos->times_each_must_eat == 0 || *philos->dead_flag == 1)
 			return (NULL);
 	}
 	return (NULL);
