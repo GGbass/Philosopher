@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/03 00:22:40 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/03 21:22:09 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,6 @@ static void	thread_init(t_data *data)
 	pthread_mutex_lock(&data->start);
 	while (i < philos->nb_philos)
 	{
-		/* philos[i].start_time = get_time();
-		philos[i].last_meal = get_time();
-		philos[i].time_to_die = philos[i].last_meal + philos[i].ms_to_die; */
 		if (pthread_create(&philos[i].thread, NULL, (void *)routine, &philos[i]) != 0)
 			(write(2, "Error creating threads", 20), free_data(data));
 		i++;

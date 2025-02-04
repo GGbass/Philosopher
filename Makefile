@@ -38,12 +38,12 @@ all: $(NAME) show_progress
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ)  -o $(NAME)
 
-hel: $(NAME)
-	valgrind --tool=helgrind  ./$(NAME) 5 800 200 200
+#hel: $(NAME)
+#	valgrind --tool=helgrind  ./$(NAME) 5 800 200 200
 
 
-val: $(NAME)
-	valgrind --tool=drd  ./$(NAME) 5 800 200 200
+#val: $(NAME)
+#	valgrind --tool=drd  ./$(NAME) 5 800 200 200
 
 show_progress:
 		@for file in $(SRC); do \
