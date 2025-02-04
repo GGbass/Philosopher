@@ -1,5 +1,6 @@
 .vscode
 philo
+philo_bonus
 subject
 *.o
 todo
