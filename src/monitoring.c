@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:43:45 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/04 07:33:24 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:19:32 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	check_philos(t_philo *philos)
 			return (0);
 		}
 		i++;
-		usleep(50);
+		usleep(10);
 	}
 	return (1);
 }
@@ -93,7 +93,7 @@ void	monitor(void *philos_in)
 		{
 			return ;
 		}
-		usleep(100);
+		usleep(10);
 	}
 	return ;
 }

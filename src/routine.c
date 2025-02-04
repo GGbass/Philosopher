@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 23:57:47 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/04 07:36:50 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:18:41 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	eating(t_philo *philos)
 			return (release_forks(philos), 0);
 		if (get_time() - philos->last_meal >= philos->time_to_eat)
 			break ;
-		usleep(100);
+		usleep(10);
 	}
 	release_forks(philos);
 	pthread_mutex_lock(philos->meal);
@@ -118,7 +118,7 @@ void	*routine(void *philo)
 			return (NULL);
 		}
 		if (philos->id % 2 == 0)
-			usleep(100);
+			usleep(1);
 		if (!eating(philos))
 			return (NULL);
 		if (!sleeping(philos))

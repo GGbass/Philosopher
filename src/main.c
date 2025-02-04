@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/04 07:32:39 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:17:20 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ static void	thread_init(t_data *data)
 	p = data->philos;
 	thread_values(data);
 	pthread_mutex_lock(&data->start);
+	if (pthread_create(&monitorer, NULL, (void *)monitor, p) != 0)
+		(write(2, "Error creating monitor thread", 20), free_data(data));
 	while (i < p->nb_philos)
 	{
 		if (pthread_create(&p[i].thread, NULL, (void *)routine, &p[i]) != 0)
 			(write(2, "Error creating threads", 20), free_data(data));
 		i++;
 	}
-	if (pthread_create(&monitorer, NULL, (void *)monitor, p) != 0)
-		(write(2, "Error creating monitor thread", 20), free_data(data));
 	pthread_mutex_unlock(&data->start);
 	i = 0;
 	if (pthread_join(monitorer, NULL) != 0)

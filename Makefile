@@ -28,7 +28,7 @@ OBJ = $(SRC:.c=.o)
 
 OBJB = $(SRCB:.c=.o)
 
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=thread
+CFLAGS = -Wall -Werror -Wextra -g3 #-fsanitize=thread
 #CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address,leak
 CC = gcc
 #-no-pie
@@ -38,8 +38,8 @@ all: $(NAME) show_progress
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ)  -o $(NAME)
 
-#hel: $(NAME)
-#	valgrind --tool=helgrind  ./$(NAME) 5 800 200 200
+hel: $(NAME)
+	valgrind --tool=helgrind  ./$(NAME) 4 800 210 200 5
 
 
 #val: $(NAME)
