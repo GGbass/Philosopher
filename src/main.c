@@ -6,29 +6,15 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/03 21:22:09 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/04 07:32:39 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher.h"
 
-void	print_values(t_data *data)
-{
-	printf("nb_philos: %d\n", data->nb_philos);
-	printf("time_to_eat: %zu\n", data->philos->time_to_eat);
-	printf("time_to_sleep: %zu\n", data->philos->time_to_sleep);
-	printf("times_each_must_eat: %d\n", data->philos->times_each_must_eat);
-	printf("time to start: %zu\n", data->time);
-	printf("time to die: %zu\n", data->philos->time_to_die);
-	printf("current - start: %zu\n", get_time() - data->time);
-	printf("time to eat: %zu\n", data->philos->time_to_eat);
-	printf("time to sleep: %zu\n", data->philos->time_to_sleep);
-	printf("ms to die: %zu\n", data->philos->ms_to_die);
-}
-
 static void	mutex_init(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	data->forks = ft_calloc(data->philos->nb_philos, sizeof(pthread_mutex_t));
@@ -38,31 +24,18 @@ static void	mutex_init(t_data *data)
 	pthread_mutex_init(&data->meal, NULL);
 	pthread_mutex_init(&data->dead, NULL);
 	pthread_mutex_init(&data->start, NULL);
-	while(i < data->nb_philos)
+	while (i < data->nb_philos)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
 			(write(2, "Error creating forks", 20), free_data(data));
 		i++;
 	}
-	i = 0;
-	while(i < data->nb_philos)
-	{
-		data->philos[i].print = &data->print;
-		data->philos[i].meal = &data->meal;
-		data->philos[i].dead = &data->dead;
-		data->philos[i].start = &data->start;
-		data->philos[i].left_fork = &data->forks[i];
-		if (i + 1 == data->philos->nb_philos)
-			data->philos[i].right_fork = &data->forks[0];
-		else
-			data->philos[i].right_fork = &data->forks[i + 1];
-		i++;
-	}
+	mutex_assigner(data);
 }
 
 static void	thread_values(t_data *data)
 {
-	int	i;
+	int		i;
 	t_philo	*philo;
 
 	philo = data->philos;
@@ -87,30 +60,29 @@ static void	thread_values(t_data *data)
 
 static void	thread_init(t_data *data)
 {
-	int		i;
+	int			i;
 	pthread_t	monitorer;
-	t_philo		*philos;
+	t_philo		*p;
 
 	i = 0;
-	philos = data->philos;
+	p = data->philos;
 	thread_values(data);
-	//print_values(data);
 	pthread_mutex_lock(&data->start);
-	while (i < philos->nb_philos)
+	while (i < p->nb_philos)
 	{
-		if (pthread_create(&philos[i].thread, NULL, (void *)routine, &philos[i]) != 0)
+		if (pthread_create(&p[i].thread, NULL, (void *)routine, &p[i]) != 0)
 			(write(2, "Error creating threads", 20), free_data(data));
 		i++;
 	}
-	if (pthread_create(&monitorer, NULL, (void *)monitor, philos) != 0)
+	if (pthread_create(&monitorer, NULL, (void *)monitor, p) != 0)
 		(write(2, "Error creating monitor thread", 20), free_data(data));
 	pthread_mutex_unlock(&data->start);
 	i = 0;
 	if (pthread_join(monitorer, NULL) != 0)
 		(write(2, "Error joining monitor thread", 20), free_data(data));
-	while (i < philos->nb_philos)
+	while (i < p->nb_philos)
 	{
-		pthread_join(philos[i].thread, NULL);
+		pthread_join(p[i].thread, NULL);
 		i++;
 	}
 }
@@ -149,3 +121,18 @@ int	main(int argc, char **argv)
 	free_data(data);
 	return (0);
 }
+
+/* 	i = 0;
+	while(i < data->nb_philos)
+	{
+		data->philos[i].print = &data->print;
+		data->philos[i].meal = &data->meal;
+		data->philos[i].dead = &data->dead;
+		data->philos[i].start = &data->start;
+		data->philos[i].left_fork = &data->forks[i];
+		if (i + 1 == data->philos->nb_philos)
+			data->philos[i].right_fork = &data->forks[0];
+		else
+			data->philos[i].right_fork = &data->forks[i + 1];
+		i++;
+	} */

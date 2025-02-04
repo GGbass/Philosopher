@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:38:22 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/29 23:01:46 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/04 07:37:05 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_philo
 	pthread_mutex_t		*start;
 	int					id;
 	int					*dead_flag;
-	long					time_to_eat;
+	long				time_to_eat;
 	long				last_meal;
 	long				time_to_sleep;
 	long				time_to_die;
@@ -53,7 +53,7 @@ typedef struct s_philo
 typedef struct s_data
 {
 	int				dead_flag;
-	size_t				time;
+	size_t			time;
 	int				nb_philos;
 	pthread_mutex_t	start;
 	pthread_mutex_t	*forks;
@@ -63,11 +63,9 @@ typedef struct s_data
 	t_philo			*philos;
 }				t_data;
 
-
 long	get_time(void);
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
-void	print_values(t_data *data);
 int		check_argv(int argc, char **argv);
 void	free_data(t_data *data);
 void	*ft_calloc(size_t n_memb, size_t size);
@@ -77,7 +75,9 @@ int		alive_status(t_philo *philos);
 void	monitor(void *philos_in);
 //void	thread_values(t_data *data);
 void	print_thread(t_philo *philos, int id, char *str);
-int	think(t_philo *philos);
-int	check_philos(t_philo *philos);
+int		think(t_philo *philos);
+int		check_philos(t_philo *philos);
+void	mutex_assigner(t_data *data);
+int		alive_status(t_philo *philos);
 
 #endif
