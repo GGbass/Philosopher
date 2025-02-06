@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:53:01 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/04 17:29:28 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/06 01:33:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher_bonus.h"
+
+static void	sem_assigner(t_data *data)
+{
+	char	*id;
+	char	*aux;
+
+	aux[0] = data->id + '0';
+	aux[1] = '\0';
+	id = ft_strjoin("/", aux);
+	if (!id)
+		(write(2, "Error creating id", 18), free_data(data));
+	data->forks = sem_open(id, O_CREAT, 0644, 1);
+}
 
 static void	process_maker(t_data *data)
 {
@@ -23,9 +36,7 @@ static void	process_maker(t_data *data)
 		if (data->philos[i].pid == 0)
 		{
 			data->philos[i].id = i + 1;
-			data->philos[i].dead_flag = &data->dead_flag;
-			data->philos[i].times_each_must_eat = data->philos->times_each_must_eat;
-			//sem_assigner(&philos[i]);
+			sem_assigner(&philos[i]);
 			//philo_routine(&data->philos[i]);
 			//free_process();
 		}
@@ -35,7 +46,7 @@ static void	process_maker(t_data *data)
 	}
 }
 
-static void	*sem_init(t_data *data)
+static void	sem_init(t_data *data)
 {
 	sem_unlink("/print");
 	sem_unlink("/meal");
@@ -49,10 +60,10 @@ static void	*sem_init(t_data *data)
 		(write(2, "Error creating print", 20), free_data(data));
 	data->meal = sem_open("/meal", O_CREAT, 0644, 1);
 	if (data->meal == SEM_FAILED)
-		(write(2, "Error creating meal", 20), free_data(data));
+		(write(2, "Error creating meal", 19), free_data(data));
 	data->dead = sem_open("/dead", O_CREAT, 0644, 1);
 	if (data->dead == SEM_FAILED)
-		(write(2, "Error creating dead", 20), free_data(data));
+		(write(2, "Error creating dead", 19), free_data(data));
 	
 }
 
@@ -66,11 +77,12 @@ static t_data	*init_argv(int argc, char **argv)
 	data->philos = ft_calloc(ft_atoi(argv[1]), sizeof(t_philo));
 	if (!data->philos)
 		(free_data(data), write(2, "Error creating philos", 21));
-	data->nb_philos = ft_atoi(argv[1]);
 	data->philos->id = 0;
+	data->nb_philos = ft_atoi(argv[1]);
 	data->time_to_die = (long)ft_atoi(argv[2]);
 	data->time_to_eat = (long)ft_atoi(argv[3]);
 	data->time_to_sleep = (long)ft_atoi(argv[4]);
+	data->philos->dead_flag = &data->dead_flag;
 	if (argc == 6)
 		data->philos->times_each_must_eat = ft_atoi(argv[5]);
 	else

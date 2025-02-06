@@ -14,6 +14,7 @@ NAME = philo_bonus
 
 SRC =	./src/check_argv.c \
 		./src/free.c \
+		./src/utils2.c \
 		./src/utils.c \
 		./src/main_bonus.c \
 

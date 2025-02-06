@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher_bonus.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:49:02 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/04 15:08:24 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/06 01:32:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,16 @@ typedef struct s_data
 	pthread_t		monitorer;
 	int				dead_flag;
 	int				nb_philos;
+	long			time_start;
+	long			last_meal;
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
+	sem_t			*forks;
 	sem_t			*print;
 	sem_t			*meal;
 	sem_t			*dead;
 	sem_t			*start;
-	sem_t			*forks;
 	t_philo			*philos;
 }				t_data;
 
@@ -66,5 +68,7 @@ int		ft_atoi(const char *str);
 void	*ft_calloc(size_t n_memb, size_t size);
 long	get_time(void);
 int		ft_usleep(size_t time);
+char	*ft_strjoin(char *s1, char *s2);
+int		ft_strlen(char *str);
 
 #endif
