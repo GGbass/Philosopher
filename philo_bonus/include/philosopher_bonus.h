@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:49:02 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/06 01:32:39 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/08 00:22:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,8 @@ long	get_time(void);
 int		ft_usleep(size_t time);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strlen(char *str);
+/* routine */
+void	print_action(t_data *data, int id, char *str);
+void	*philo_routine(t_data *data);
 
 #endif

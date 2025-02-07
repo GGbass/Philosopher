@@ -12,30 +12,24 @@
 
 #include "../include/philosopher_bonus.h"
 
-void	*philo_routine(t_philo *philo)
+void	*philo_routine(t_data *data)
 {
 	while (1)
 	{
-		sem_wait(philo->data->forks);
-		sem_wait(philo->data->forks);
-		sem_wait(philo->data->print);
-		printf("%ld %d has taken a fork\n", get_time() - philo->data->start_time, philo->id);
-		printf("%ld %d has taken a fork\n", get_time() - philo->data->start_time, philo->id);
-		sem_post(philo->data->print);
-		sem_wait(philo->data->print);
-		printf("%ld %d is eating\n", get_time() - philo->data->start_time, philo->id);
-		sem_post(philo->data->print);
-		philo->last_meal = get_time();
-		usleep(philo->data->time_to_eat * 1000);
-		sem_post(philo->data->forks);
-		sem_post(philo->data->forks);
-		sem_wait(philo->data->print);
-		printf("%ld %d is sleeping\n", get_time() - philo->data->start_time, philo->id);
-		sem_post(philo->data->print);
-		usleep(philo->data->time_to_sleep * 1000);
-		sem_wait(philo->data->print);
-		printf("%ld %d is thinking\n", get_time() - philo->data->start_time, philo->id);
-		sem_post(philo->data->print);
+		sem_wait(data->forks);
+		print_action(data, data->philos->id, PHILO_TAKE_FORK);
+		sem_wait(data->forks);
+		print_action(data, data->philos->id, PHILO_TAKE_FORK);
+		sem_wait(data->meal);
+		print_action(data, data->philos->id, PHILO_EAT);
+		sem_post(data->meal);
+		data->last_meal = get_time();
+		ft_usleep(data->time_to_eat);
+		sem_post(data->forks);
+		sem_post(data->forks);
+		print_action(data, data->philos->id, PHILO_SLEEP);
+		ft_usleep(data->time_to_sleep);
+		print_action(data, data->philos->id, PHILO_THINK);
 	}
 	return (NULL);
 }

@@ -12,7 +12,8 @@ NAME = philo_bonus
 
 
 
-SRC =	./src/check_argv.c \
+SRC =	./src/routine.c \
+		./src/check_argv.c \
 		./src/free.c \
 		./src/utils2.c \
 		./src/utils.c \

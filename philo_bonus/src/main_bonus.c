@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:53:01 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/06 01:33:03 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/08 00:27:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,20 @@ static void	sem_assigner(t_data *data)
 	char	*id;
 	char	*aux;
 
-	aux[0] = data->id + '0';
+	aux = malloc(2);
+	if (!aux)
+		(write(2, "Error creating aux in join", 26), free_data(data));
+	aux[0] = data->philos->	id + '0';
 	aux[1] = '\0';
 	id = ft_strjoin("/", aux);
 	if (!id)
-		(write(2, "Error creating id", 18), free_data(data));
-	data->forks = sem_open(id, O_CREAT, 0644, 1);
+		(write(2, "Error creating id in join", 25), free_data(data));
+	sem_unlink(id);
+	data->meal = sem_open(id, O_CREAT, 0644, 1);
+	if (id)
+		free(id);
+	if (data->meal == SEM_FAILED)
+		(write(2, "Error creating meal semaphore", 29), free_data(data));
 }
 
 static void	process_maker(t_data *data)
@@ -36,7 +44,7 @@ static void	process_maker(t_data *data)
 		if (data->philos[i].pid == 0)
 		{
 			data->philos[i].id = i + 1;
-			sem_assigner(&philos[i]);
+			sem_assigner(data);
 			//philo_routine(&data->philos[i]);
 			//free_process();
 		}
@@ -46,7 +54,7 @@ static void	process_maker(t_data *data)
 	}
 }
 
-static void	sem_init(t_data *data)
+static void	sema_init(t_data *data)
 {
 	sem_unlink("/print");
 	sem_unlink("/meal");
@@ -99,7 +107,8 @@ int	main(int argc, char **argv)
 	if (!check_argv(argc, argv))
 		return (0);
 	data = init_argv(argc, argv);
-	sem_init(data);
+	sema_init(data);
+	process_maker(data);
 	free_data(data);
 	return (0);
 }

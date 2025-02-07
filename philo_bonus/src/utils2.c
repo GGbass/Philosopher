@@ -46,3 +46,14 @@ char	*ft_strjoin(char *s1, char *s2)
 		free(s2);
 	return (joined);
 }
+void	print_action(t_data *data, int id, char *str)
+{
+	size_t	time;
+// it has to be data
+	/* if (!alive_status(philos))
+		return ; */
+	sem_wait(data->print);
+	time = get_time() - data->time_start;
+	printf("%ld %d %s\n", time, id, str);
+	sem_post(data->print);
+}
