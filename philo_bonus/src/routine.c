@@ -12,24 +12,104 @@
 
 #include "../include/philosopher_bonus.h"
 
-void	*philo_routine(t_data *data)
+static int	thinking(t_data *data)
 {
-	while (1)
+	if (!check_alive(data))
+		return (0);
+	print_action(data, data->philos->id, PHILO_THINK);
+	return (1);
+}
+
+static int	sleeping(t_data *data)
+{
+	long	start;
+
+	start = get_time();
+	print_action(data, data->philos->id, PHILO_SLEEP);
+	while(1)
+	{
+		if (!check_alive(data))
+		return (0);
+		if (get_time() - start >= data->time_to_sleep)
+			break ;
+		usleep(10);
+	}
+	return (1);
+}
+
+static void	take_or_release_forks(t_data *data, int release_flag)
+{
+	if (!release_flag)
 	{
 		sem_wait(data->forks);
 		print_action(data, data->philos->id, PHILO_TAKE_FORK);
 		sem_wait(data->forks);
 		print_action(data, data->philos->id, PHILO_TAKE_FORK);
-		sem_wait(data->meal);
-		print_action(data, data->philos->id, PHILO_EAT);
-		sem_post(data->meal);
-		data->last_meal = get_time();
-		ft_usleep(data->time_to_eat);
-		sem_post(data->forks);
-		sem_post(data->forks);
-		print_action(data, data->philos->id, PHILO_SLEEP);
-		ft_usleep(data->time_to_sleep);
-		print_action(data, data->philos->id, PHILO_THINK);
 	}
+	else
+	{
+		sem_post(data->forks);
+		sem_post(data->forks);
+	}
+}
+
+static int	eating(t_data *data)
+{
+	if (!check_alive(data))
+		return (0);
+	take_or_release_forks(data, 0);
+	sem_wait(data->meal);
+	data->last_meal = get_time();
+	print_action(data, data->philos->id, PHILO_EAT);
+	while(1)
+	{
+		if (!check_alive(data))
+			return (take_or_release_forks(data, 1), 0);
+		if (get_time() - data->last_meal >= data->time_to_eat)
+			break ;
+		usleep(10);
+	}
+	take_or_release_forks(data, 1);
+	sem_post(data->meal);
+	if (data->times_each_must_eat > 0)
+	{
+		data->times_each_must_eat--;
+		if (data->times_each_must_eat == 0)
+		{
+			(*data->finished)++;
+			return (0);
+		}
+	}
+	return (1);
+}
+
+void	*philo_routine(t_data *data)
+{
+	/* if (pthread_create(&data->monitorer, NULL, monitor, data))
+		return (printf("Error creating thread\n"), NULL); */
+	data->last_meal = get_time();
+	data->time_start = get_time();
+	printf("process id: %d\n", data->philos->id);
+	while (check_alive(data))
+	{
+		if (data->nb_philos == 1)
+		{
+			sem_wait(data->forks);
+			print_action(data, data->philos->id, PHILO_TAKE_FORK);
+			ft_usleep(data->time_to_die);
+			sem_post(data->forks);
+			//print_action(data, data->philos->id, PHILO_DEAD);
+			return (NULL);
+		}
+		if (data->philos->id % 2 == 0)
+			usleep(5);
+		if (!eating(data))
+			return (NULL);
+		if (!sleeping(data))
+			return (NULL);
+		if (!thinking(data))
+			return (NULL);
+	}
+	//pthread_join(data->monitorer, NULL);
 	return (NULL);
 }

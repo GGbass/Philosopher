@@ -29,7 +29,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		j;
 
 	i = -1;
-	j = 0;
+	j = -1;
 	if (!s1 && !s2)
 		return (NULL);
 	joined = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
@@ -40,8 +40,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[++j])
 		joined[i++] = s2[j];
 	joined[i] = '\0';
-	if (s1)
-		free(s1);
 	if (s2)
 		free(s2);
 	return (joined);
@@ -49,11 +47,39 @@ char	*ft_strjoin(char *s1, char *s2)
 void	print_action(t_data *data, int id, char *str)
 {
 	size_t	time;
-// it has to be data
-	/* if (!alive_status(philos))
-		return ; */
+	 if (!check_alive(data))
+		return ; 
 	sem_wait(data->print);
 	time = get_time() - data->time_start;
 	printf("%ld %d %s\n", time, id, str);
 	sem_post(data->print);
+}
+
+char	*ft_itoa(int num)
+{
+	int		len;
+	int		tmp;
+	char	*str;
+
+	len = 1;
+	tmp = num;
+	if (num < 0)
+	{
+		len++;
+		tmp *= -1;
+	}
+	while (tmp /= 10)
+		len++;
+	str = ft_calloc(len + 1, 1);
+	if (!str)
+		return (NULL);
+	if (num < 0)
+		str[0] = '-';
+	str[len] = '\0';
+	while (len--)
+	{
+		str[len] = (num % 10) + '0';
+		num /= 10;
+	}
+	return (str);
 }

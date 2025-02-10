@@ -12,7 +12,8 @@ NAME = philo_bonus
 
 
 
-SRC =	./src/routine.c \
+SRC =	./src/process_check.c \
+		./src/routine.c \
 		./src/check_argv.c \
 		./src/free.c \
 		./src/utils2.c \
@@ -23,8 +24,8 @@ SRC =	./src/routine.c \
 OBJ = $(SRC:.c=.o)
 
 
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=thread
-#CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address,leak
+#CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=thread
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address,leak
 CC = gcc
 #-no-pie
 

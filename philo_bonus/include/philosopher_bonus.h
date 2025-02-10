@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:49:02 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/08 00:22:55 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/10 23:02:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <pthread.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <sys/time.h>
 # include <semaphore.h>
 # include <signal.h>
@@ -37,13 +39,15 @@ typedef struct s_philo
 	pid_t				pid;
 	int					id;
 	int					*dead_flag;
-	int					times_each_must_eat;
+	int					finished;
 }						t_philo;
 
 typedef struct s_data
 {
 	pthread_t		monitorer;
 	int				dead_flag;
+	int				*finished;
+	int				times_each_must_eat;
 	int				nb_philos;
 	long			time_start;
 	long			last_meal;
@@ -70,8 +74,11 @@ long	get_time(void);
 int		ft_usleep(size_t time);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strlen(char *str);
+char	*ft_itoa(int num);
 /* routine */
 void	print_action(t_data *data, int id, char *str);
 void	*philo_routine(t_data *data);
+/* proccess checker */
+int	check_alive(t_data *data);
 
 #endif
