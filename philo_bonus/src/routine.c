@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 23:10:29 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/11 19:00:59 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/11 21:52:15 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	sleeping(t_data *data)
 	while(1)
 	{
 		if (!check_alive(data))
-		return (0);
+			return (0);
 		if (get_time() - start >= data->time_to_sleep)
 			break ;
 		usleep(10);
@@ -43,6 +43,7 @@ static void	take_or_release_forks(t_data *data, int release_flag)
 	{
 		sem_wait(data->forks);
 		print_action(data, data->philos->id, PHILO_TAKE_FORK);
+		usleep(10);
 		sem_wait(data->forks);
 		print_action(data, data->philos->id, PHILO_TAKE_FORK);
 	}
@@ -60,7 +61,6 @@ static int	eating(t_data *data)
 	take_or_release_forks(data, 0);
 	sem_wait(data->meal);
 	data->last_meal = get_time();
-	printf("step 1 \n");
 	print_action(data, data->philos->id, PHILO_EAT);
 	while(1)
 	{
@@ -68,7 +68,7 @@ static int	eating(t_data *data)
 			return (take_or_release_forks(data, 1), 0); */
 		if (get_time() - data->last_meal >= data->time_to_eat)
 			break ;
-		usleep(100);
+		usleep(10);
 	}
 	take_or_release_forks(data, 1);
 	sem_post(data->meal);
@@ -91,8 +91,12 @@ void	*philo_routine(t_data *data, int id)
 	sem_post(data->start);
 	data->last_meal = get_time();
 	data->time_start = get_time();
-	while (check_alive(data))
+	printf("process dead_flag %p\n", data->philos->dead_flag);
+	printf("process finished %p\n", &data->dead_flag);
+	while (1)
 	{
+		if (*data->philos->dead_flag == 1 || data->dead_flag == 1)
+			free_data(data);
 		if (data->nb_philos == 1)
 		{
 			sem_wait(data->forks);
@@ -103,13 +107,14 @@ void	*philo_routine(t_data *data, int id)
 			return (NULL);
 		}
 		if (data->philos->id % 2 == 0)
-			usleep(100);
+			usleep(10);
 		if (!eating(data))
-			return (NULL);
+			free_data(data);
 		if (!sleeping(data))
-			return (NULL);
+			free_data(data);
 		if (!thinking(data))
-			return (NULL);
+			free_data(data);
 	}
+	free_data(data);
 	exit(1);
 }

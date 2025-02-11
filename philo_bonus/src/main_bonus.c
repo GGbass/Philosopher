@@ -6,11 +6,17 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:53:01 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/11 18:56:22 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/11 21:45:26 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher_bonus.h"
+
+static void	signal_handler(int signum)
+{
+	(void)signum;
+	exit(1);
+}
 
 static void	process_maker(t_data *data)
 {
@@ -19,13 +25,13 @@ static void	process_maker(t_data *data)
 
 	i = 0;
 	//status = 0;
+	signal(SIGINT, signal_handler);
 	sem_wait(data->start);
 	while(i < data->nb_philos)
 	{
 		data->philos[i].pid = fork();
 		if (data->philos[i].pid == 0)
 		{
-			//sem_assigner(data, data->philos);
 			philo_routine(data, i + 1);
 			printf("Philosopher %d is dead\n", i + 1);
 			exit(0);
@@ -38,9 +44,10 @@ static void	process_maker(t_data *data)
 	i = 0;
 	while(i < data->nb_philos)
 	{
-		waitpid(data->philos[i].pid, NULL, 0);
-		i++;
+		if (waitpid(data->philos[i].pid, NULL, 1))
+			i++;
 	}
+	kill(data->philos->pid, SIGKILL);
 	printf("All philosophers are dead\n");
 	return ;
 }
@@ -61,7 +68,7 @@ static void	sema_init(t_data *data)
 	data->print = sem_open("/print", O_CREAT, 0644, 1);
 	if (data->print == SEM_FAILED)
 		(write(2, "Error creating print", 20), free_data(data));
-	data->start = sem_open("/meal", O_CREAT, 0644, 1);
+	data->start = sem_open("/start", O_CREAT, 0644, 1);
 	if (data->start == SEM_FAILED)
 		(write(2, "Error creating start", 19), free_data(data));
 	data->dead = sem_open("/dead", O_CREAT, 0644, 1);
