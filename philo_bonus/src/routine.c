@@ -60,6 +60,7 @@ static int	eating(t_data *data)
 	take_or_release_forks(data, 0);
 	sem_wait(data->meal);
 	data->last_meal = get_time();
+	printf("step 1 \n");
 	print_action(data, data->philos->id, PHILO_EAT);
 	while(1)
 	{
@@ -111,5 +112,5 @@ void	*philo_routine(t_data *data)
 			return (NULL);
 	}
 	//pthread_join(data->monitorer, NULL);
-	return (NULL);
+	exit(0);
 }

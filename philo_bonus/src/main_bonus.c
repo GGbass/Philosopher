@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:53:01 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/10 23:50:09 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/11 13:05:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	sem_assigner(t_data *data)
 	char	*aux;
 
 	aux = ft_itoa(data->philos->id);
+	printf("aux: %s\n", aux);
 	id = ft_strjoin("/", aux);
 	if (!id)
 		(write(2, "Error creating id in join", 25), free_data(data));
@@ -44,17 +45,18 @@ static void	process_maker(t_data *data)
 			data->philos[i].id = i + 1;
 			sem_assigner(data);
 			philo_routine(data);
+			exit(0);
 		}
 		else if (data->philos[i].pid < 0)
-			(write(2, "Error creating process", 23), free_data(data));
+			(write(2, "Error creating process", 23), free_data(data), exit(0));
 		i++;
 	}
-	/* while(status == 0)
+	i = 0;
+	while(i < data->nb_philos)
 	{
-		waitpid(-1, &status, 0);
-		if ((status) != 0)
-			break ;
-	} */
+		waitpid(data->philos[i].pid, NULL, 0);
+		i++;
+	}
 }
 
 static void	sema_init(t_data *data)
@@ -69,9 +71,9 @@ static void	sema_init(t_data *data)
 	data->print = sem_open("/print", O_CREAT, 0644, 1);
 	if (data->print == SEM_FAILED)
 		(write(2, "Error creating print", 20), free_data(data));
-	data->meal = sem_open("/meal", O_CREAT, 0644, 1);
+/* 	data->meal = sem_open("/meal", O_CREAT, 0644, 1);
 	if (data->meal == SEM_FAILED)
-		(write(2, "Error creating meal", 19), free_data(data));
+		(write(2, "Error creating meal", 19), free_data(data)); */
 	data->dead = sem_open("/dead", O_CREAT, 0644, 1);
 	if (data->dead == SEM_FAILED)
 		(write(2, "Error creating dead", 19), free_data(data));
