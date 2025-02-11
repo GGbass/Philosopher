@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 01:14:21 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/06 01:14:21 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/11 18:38:17 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,14 @@ char	*ft_strjoin(char *s1, char *s2)
 void	print_action(t_data *data, int id, char *str)
 {
 	size_t	time;
-	 if (!check_alive(data))
-		return ; 
+
+	/* if (!check_alive(data))
+		return ; */
 	sem_wait(data->print);
 	time = get_time() - data->time_start;
 	printf("%ld %d %s\n", time, id, str);
 	sem_post(data->print);
+	return ;
 }
 
 char	*ft_itoa(int num)

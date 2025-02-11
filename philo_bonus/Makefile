@@ -24,8 +24,9 @@ SRC =	./src/process_check.c \
 OBJ = $(SRC:.c=.o)
 
 
-#CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=thread
-CFLAGS = -Wall -Werror -Wextra -g3 #-fsanitize=address,leak
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=thread
+#CFLAGS = -Wall -Werror -Wextra -g3 #-fsanitize=address,leak
+#CLFAGS = -Wall -Werror -Wextra -g3 -fsanitize=address, leak
 CC = gcc
 #-no-pie
 

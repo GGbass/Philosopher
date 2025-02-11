@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:53:01 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/11 13:05:57 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/11 18:56:22 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher_bonus.h"
-
-static void	sem_assigner(t_data *data)
-{
-	char	*id;
-	char	*aux;
-
-	aux = ft_itoa(data->philos->id);
-	printf("aux: %s\n", aux);
-	id = ft_strjoin("/", aux);
-	if (!id)
-		(write(2, "Error creating id in join", 25), free_data(data));
-	sem_unlink(id);
-	data->meal = sem_open(id, O_CREAT, 0644, 1);
-	if (id)
-		free(id);
-	if (data->meal == SEM_FAILED)
-		(write(2, "Error creating meal semaphore\n", 30), free_data(data));
-}
 
 static void	process_maker(t_data *data)
 {
@@ -37,26 +19,30 @@ static void	process_maker(t_data *data)
 
 	i = 0;
 	//status = 0;
+	sem_wait(data->start);
 	while(i < data->nb_philos)
 	{
 		data->philos[i].pid = fork();
 		if (data->philos[i].pid == 0)
 		{
-			data->philos[i].id = i + 1;
-			sem_assigner(data);
-			philo_routine(data);
+			//sem_assigner(data, data->philos);
+			philo_routine(data, i + 1);
+			printf("Philosopher %d is dead\n", i + 1);
 			exit(0);
 		}
 		else if (data->philos[i].pid < 0)
-			(write(2, "Error creating process", 23), free_data(data), exit(0));
+			(write(2, "Error creating process", 23), free_data(data));
 		i++;
 	}
+	sem_post(data->start);
 	i = 0;
 	while(i < data->nb_philos)
 	{
 		waitpid(data->philos[i].pid, NULL, 0);
 		i++;
 	}
+	printf("All philosophers are dead\n");
+	return ;
 }
 
 static void	sema_init(t_data *data)
@@ -65,15 +51,19 @@ static void	sema_init(t_data *data)
 	sem_unlink("/meal");
 	sem_unlink("/dead");
 	sem_unlink("/forks");
+	sem_unlink("/start");
+	data->meal = sem_open("/meal", O_CREAT, 0644, 1);
+	if (data->meal == SEM_FAILED)
+		(write(2, "Error creating meal", 20), free_data(data));
 	data->forks = sem_open("/forks", O_CREAT, 0644, data->nb_philos);
 	if (data->forks == SEM_FAILED)
 		(write(2, "Error creating forks", 20), free_data(data));
 	data->print = sem_open("/print", O_CREAT, 0644, 1);
 	if (data->print == SEM_FAILED)
 		(write(2, "Error creating print", 20), free_data(data));
-/* 	data->meal = sem_open("/meal", O_CREAT, 0644, 1);
-	if (data->meal == SEM_FAILED)
-		(write(2, "Error creating meal", 19), free_data(data)); */
+	data->start = sem_open("/meal", O_CREAT, 0644, 1);
+	if (data->start == SEM_FAILED)
+		(write(2, "Error creating start", 19), free_data(data));
 	data->dead = sem_open("/dead", O_CREAT, 0644, 1);
 	if (data->dead == SEM_FAILED)
 		(write(2, "Error creating dead", 19), free_data(data));
