@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 23:10:29 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/12 00:50:32 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/12 22:53:07 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	*philo_routine(t_data *data, int id)
 		if (!thinking(data))
 			break ;
 	}
-	free_data(data);
-	exit(1);
+	if (data->times_each_must_eat == 0)
+		(free_data(data), exit(0));
+	(free_data(data) , exit(1));
 }

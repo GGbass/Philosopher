@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:53:01 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/11 21:45:26 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/12 22:52:48 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,12 @@ static void	signal_handler(int signum)
 static void	process_maker(t_data *data)
 {
 	int	i;
-	//int	status;
-
+	//int   statu
 	i = 0;
 	//status = 0;
 	signal(SIGINT, signal_handler);
 	sem_wait(data->start);
-	while(i < data->nb_philos)
+	while (i < data->nb_philos)
 	{
 		data->philos[i].pid = fork();
 		if (data->philos[i].pid == 0)
@@ -42,16 +41,18 @@ static void	process_maker(t_data *data)
 	}
 	sem_post(data->start);
 	i = 0;
-	while(i < data->nb_philos)
+	while(1)
 	{
 		if (waitpid(data->philos[i].pid, NULL, 1))
-			i++;
+			break;
+		i++;
+		if (i == data->nb_philos)
+			i = 0;
 	}
-	kill(data->philos->pid, SIGKILL);
+	kill_proccesses(data);
 	printf("All philosophers are dead\n");
 	return ;
 }
-
 static void	sema_init(t_data *data)
 {
 	sem_unlink("/print");
