@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 17:31:30 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/12 22:04:46 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:57:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,27 @@
 
 static int	everyone_ate(t_data *data)
 {
-	sem_wait(data->meal);
+	sem_wait(data->dead);
 	if (data->nb_philos == *data->finished)
 	{
 		data->dead_flag = 1;
 		*data->philos->dead_flag = 1;
-		sem_post(data->meal);
+		sem_post(data->dead);
 		return (1);
 	}
-	sem_post(data->meal);
+	sem_post(data->dead);
 	return (0);
 }
 
 int	alive_status(t_data *data)
 {
-	sem_wait(data->meal);
+	sem_wait(data->dead);
 	if (*data->philos->dead_flag == 1 || data->dead_flag == 1)
 	{
-		sem_post(data->meal);
+		sem_post(data->dead);
 		return (0);
 	}
-	sem_post(data->meal);
+	sem_post(data->dead);
 	return (1);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 23:10:29 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/12 22:53:07 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/13 01:03:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	take_or_release_forks(t_data *data, int release_flag)
 	{
 		sem_wait(data->forks);
 		print_action(data, data->philos->id, PHILO_TAKE_FORK);
-		usleep(10);
+		//usleep(10);
 		sem_wait(data->forks);
 		print_action(data, data->philos->id, PHILO_TAKE_FORK);
 	}
@@ -58,21 +58,21 @@ static void	take_or_release_forks(t_data *data, int release_flag)
 
 static int	eating(t_data *data)
 {
-	if (!check_alive(data))
-		return (0);
+/* 	if (!check_alive(data))
+		return (0); */
 	take_or_release_forks(data, 0);
-	sem_wait(data->meal);
 	data->last_meal = get_time();
 	print_action(data, data->philos->id, PHILO_EAT);
-	sem_post(data->meal);
+	sem_wait(data->meal);
 	while(1)
 	{
 		if (!check_alive(data))
-			return (take_or_release_forks(data, 1), 0);
+		return (take_or_release_forks(data, 1), 0);
 		if (get_time() - data->last_meal >= data->time_to_eat)
-			break ;
+		break ;
 		usleep(10);
 	}
+	sem_post(data->meal);
 	take_or_release_forks(data, 1);
 	sem_wait(data->meal);
 	if (data->times_each_must_eat > 0)
@@ -109,7 +109,7 @@ void	*philo_routine(t_data *data, int id)
 			return (NULL);
 		}
 		if (data->philos->id % 2 == 0)
-			usleep(10);
+			usleep(5);
 		if (!eating(data))
 			break ;
 		if (!sleeping(data))

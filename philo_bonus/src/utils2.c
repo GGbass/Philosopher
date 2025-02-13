@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 01:14:21 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/12 00:27:24 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/13 01:00:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	print_action(t_data *data, int id, char *str)
 	time = get_time() - data->time_start;
 	printf("%ld %d %s\n", time, id, str);
 	sem_post(data->print);
-	return ;
 }
 
 char	*ft_itoa(int num)
