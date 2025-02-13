@@ -11,8 +11,9 @@ WHITE = \033[0;97m
 NAME = philo_bonus
 
 
+#		./src/process_check.c \
 
-SRC =	./src/process_check.c \
+SRC =	./src/monitor.c \
 		./src/routine.c \
 		./src/check_argv.c \
 		./src/free.c \

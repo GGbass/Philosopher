@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 17:31:30 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/13 00:57:56 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/13 20:02:02 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ int	alive_status(t_data *data)
 static int	time_checker(t_data *data)
 {
 	sem_wait(data->dead);
-	if (get_time() - data->last_meal >= data->time_to_die)
+	if (get_time() - data->last_meal > data->time_to_die)
 	{
+		printf("rest time: %ld\n", get_time() - data->last_meal);
 		printf("get time: %ld last meal %ld and time to die %ld\n", get_time(), data->last_meal, data->time_to_die);
 		print_action(data, data->philos->id, PHILO_DIE);
 		*data->philos->dead_flag = 1;

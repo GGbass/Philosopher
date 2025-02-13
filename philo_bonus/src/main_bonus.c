@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:53:01 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/12 22:52:48 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/13 22:22:44 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,6 @@ static void	process_maker(t_data *data)
 		i++;
 	}
 	sem_post(data->start);
-	i = 0;
-	while(1)
-	{
-		if (waitpid(data->philos[i].pid, NULL, 1))
-			break;
-		i++;
-		if (i == data->nb_philos)
-			i = 0;
-	}
-	kill_proccesses(data);
 	printf("All philosophers are dead\n");
 	return ;
 }
@@ -75,7 +65,6 @@ static void	sema_init(t_data *data)
 	data->dead = sem_open("/dead", O_CREAT, 0644, 1);
 	if (data->dead == SEM_FAILED)
 		(write(2, "Error creating dead", 19), free_data(data));
-	
 }
 
 static t_data	*init_argv(int argc, char **argv)
