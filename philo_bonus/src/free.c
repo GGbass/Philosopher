@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:03:35 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/13 22:22:30 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:54:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,28 @@ void	kill_proccesses(t_data *data)
 				kill(data->philos[i].pid, SIGKILL);
 				i++;
 			}
+			break ;
 		}
 	}
+	WIFEXITED(status);
+}
+void	free_proccess(t_data *data)
+{
+	kill(data->philos->pid, SIGKILL);
+	if (data->philos)
+		free(data->philos);
+	free(data);
+	exit(0);
 }
 
 void	free_data(t_data *data)
 {
-	int i;
 
-	i = 0;
+	if (data->philos->pid > 0)
+		kill_proccesses(data);
 	if (data->philos)
 	{
-		while (i < data->nb_philos)
-		{
-			free(data->philos);
-			i++;
-		}
 		free(data->philos);
 	}
-	kill_proccesses(data);
-	free(data->philos);
 	free(data);
 }

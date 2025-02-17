@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher_bonus.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:49:02 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/13 20:17:59 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:54:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philo
 	int					id;
 	int					*dead_flag;
 	int					finished;
+	int					post_out;
 }						t_philo;
 
 typedef struct s_data
@@ -67,6 +68,7 @@ int		check_argv(int argc, char **argv);
 /* free */
 void	free_data(t_data *data);
 void	kill_proccesses(t_data *data);
+void	free_proccess(t_data *data);
 /* utils */
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
@@ -78,7 +80,7 @@ int		ft_strlen(char *str);
 char	*ft_itoa(int num);
 /* routine */
 void	print_action(t_data *data, int id, char *str);
-void	*philo_routine(t_data *data, int id);
+void	*philo_routine(t_data *data);
 /* proccess checker */
 int	check_alive(t_data *data);
 int	alive_status(t_data *data);

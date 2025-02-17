@@ -3,46 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:53:01 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/13 22:22:44 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/17 18:33:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher_bonus.h"
 
-static void	signal_handler(int signum)
+/* static void	signal_handler(int signum)
 {
 	(void)signum;
 	exit(1);
-}
+} */
 
 static void	process_maker(t_data *data)
 {
 	int	i;
-	//int   statu
+
 	i = 0;
-	//status = 0;
-	signal(SIGINT, signal_handler);
+//	signal(SIGINT, signal_handler);
 	sem_wait(data->start);
 	while (i < data->nb_philos)
 	{
 		data->philos[i].pid = fork();
 		if (data->philos[i].pid == 0)
 		{
-			philo_routine(data, i + 1);
-			printf("Philosopher %d is dead\n", i + 1);
-			exit(0);
+			data->philos->id = i + 1;
+			philo_routine(data);
 		}
 		else if (data->philos[i].pid < 0)
 			(write(2, "Error creating process", 23), free_data(data));
 		i++;
 	}
 	sem_post(data->start);
-	printf("All philosophers are dead\n");
 	return ;
 }
+
 static void	sema_init(t_data *data)
 {
 	sem_unlink("/print");
