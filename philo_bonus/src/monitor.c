@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:38:44 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/17 18:17:10 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/17 22:51:16 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	everyone_ate(t_data *data)
 {
 	sem_wait(data->dead);
-	if (data->nb_philos == *data->finished)
+	if (data->nb_philos == *data->philos->finished)
 	{
 		sem_wait(data->print);
 		//data->dead_flag = 1;
@@ -57,5 +57,5 @@ void	*monitor(void	*dat)
 			break ;
 		usleep(10);
 	}
-	exit (1);
+	return (NULL);
 }

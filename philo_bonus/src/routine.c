@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 23:10:29 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/17 18:34:57 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/17 22:53:39 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	eating(t_data *data)
 		data->times_each_must_eat--;
 		if (data->times_each_must_eat == 0)
 		{
-			(*data->finished)++;
+			(data->finished)++;
 			return (sem_post(data->meal), 0);
 		}
 	}
@@ -91,11 +91,11 @@ static int	eating(t_data *data)
 void	*philo_routine(t_data *data)
 {
 	sem_wait(data->start);
-	sem_post(data->start);
 	data->last_meal = get_time();
 	data->time_start = get_time();
 	if (pthread_create(&data->monitorer, NULL, monitor, (void *)data))
 		(free_data(data), exit(1));
+	sem_post(data->start);
 	while (alive_status(data))
 	{
 		if (data->nb_philos == 1)
@@ -108,7 +108,7 @@ void	*philo_routine(t_data *data)
 			break ;
 		}
 		if (data->philos->id % 2)
-			usleep(25);
+			usleep(10);
 		if (!eating(data))
 			break ;
 		if (!sleeping(data))
@@ -118,8 +118,12 @@ void	*philo_routine(t_data *data)
 	}
 	pthread_join(data->monitorer, NULL);
 	if (data->times_each_must_eat == 0)
-		free_proccess(data);
+	{
+		data->finished++;
+		free_data(data);
+	}
 	if (data->philos->post_out == data->philos->id)
 		sem_post(data->print);
+	//return (NULL);
 	exit(1);
 }

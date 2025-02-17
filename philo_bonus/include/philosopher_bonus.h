@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher_bonus.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:49:02 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/17 17:54:57 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/17 22:34:07 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_philo
 	pid_t				pid;
 	int					id;
 	int					*dead_flag;
-	int					finished;
+	int					*finished;
 	int					post_out;
 }						t_philo;
 
@@ -47,7 +47,7 @@ typedef struct s_data
 {
 	pthread_t		monitorer;
 	int				dead_flag;
-	int				*finished;
+	int				finished;
 	int				times_each_must_eat;
 	int				nb_philos;
 	long			time_start;

@@ -3,27 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:53:01 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/17 18:33:46 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/17 22:35:03 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher_bonus.h"
-
-/* static void	signal_handler(int signum)
-{
-	(void)signum;
-	exit(1);
-} */
 
 static void	process_maker(t_data *data)
 {
 	int	i;
 
 	i = 0;
-//	signal(SIGINT, signal_handler);
 	sem_wait(data->start);
 	while (i < data->nb_philos)
 	{
@@ -79,7 +72,7 @@ static t_data	*init_argv(int argc, char **argv)
 	data->time_to_die = (long)ft_atoi(argv[2]);
 	data->time_to_eat = (long)ft_atoi(argv[3]);
 	data->time_to_sleep = (long)ft_atoi(argv[4]);
-	data->finished = &data->philos->finished;
+	data->philos->finished = &data->finished;
 	data->philos->dead_flag = &data->dead_flag;
 	if (argc == 6)
 		data->times_each_must_eat = ft_atoi(argv[5]);
