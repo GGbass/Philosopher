@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 23:10:29 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/17 22:53:39 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/18 23:50:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,13 +117,12 @@ void	*philo_routine(t_data *data)
 			break ;
 	}
 	pthread_join(data->monitorer, NULL);
-	if (data->times_each_must_eat == 0)
+/* 	if (data->times_each_must_eat == 0)
 	{
 		data->finished++;
-		free_data(data);
-	}
+		return NULL;
+	} */
 	if (data->philos->post_out == data->philos->id)
 		sem_post(data->print);
-	//return (NULL);
-	exit(1);
+	return (NULL);
 }
