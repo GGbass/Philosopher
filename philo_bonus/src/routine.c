@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 23:10:29 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/18 23:50:15 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/20 20:05:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,13 +116,18 @@ void	*philo_routine(t_data *data)
 		if (!thinking(data))
 			break ;
 	}
+	printf("returning philo id: %d with dead_flag: %d\n", data->philos->id, *data->philos->dead_flag);
 	pthread_join(data->monitorer, NULL);
-/* 	if (data->times_each_must_eat == 0)
+	//pthread_detach(data->monitorer);
+	/* 	if (data->times_each_must_eat == 0)
 	{
 		data->finished++;
 		return NULL;
 	} */
 	if (data->philos->post_out == data->philos->id)
+	{
+		printf("returning post_out philo id: %d\n", data->philos->id);
 		sem_post(data->print);
+	}
 	return (NULL);
 }

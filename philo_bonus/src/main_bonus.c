@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:53:01 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/19 00:22:56 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/20 19:51:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	process_maker(t_data *data)
 			philo_routine(data);
 			printf("Philosopher %d is out\n", data->philos->id);
 			//free_data(data);
-			exit(0);
+			exit(1);
 		}
 		else if (data->philos[i].pid < 0)
 			(write(2, "Error creating process", 23), free_data(data));
