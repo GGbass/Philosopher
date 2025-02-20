@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:49:02 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/17 22:34:07 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/20 21:27:32 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ typedef struct s_data
 int		check_argv(int argc, char **argv);
 /* free */
 void	free_data(t_data *data);
-void	kill_proccesses(t_data *data);
-void	free_proccess(t_data *data);
+void	kill_pids(t_data *data);
 /* utils */
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);

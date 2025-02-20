@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 23:10:29 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/20 20:05:46 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/20 21:33:55 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,18 @@ static int	eating(t_data *data)
 			break ;
 		usleep(10);
 	}
-	sem_wait(data->meal);
 	take_or_release_forks(data, 1);
+	sem_wait(data->dead);
 	if (data->times_each_must_eat > 0)
 	{
 		data->times_each_must_eat--;
 		if (data->times_each_must_eat == 0)
 		{
 			(data->finished)++;
-			return (sem_post(data->meal), 0);
+			return (sem_post(data->dead), 0);
 		}
 	}
-	sem_post(data->meal);
+	sem_post(data->dead);
 	return (1);
 }
 
@@ -117,17 +117,18 @@ void	*philo_routine(t_data *data)
 			break ;
 	}
 	printf("returning philo id: %d with dead_flag: %d\n", data->philos->id, *data->philos->dead_flag);
-	pthread_join(data->monitorer, NULL);
 	//pthread_detach(data->monitorer);
 	/* 	if (data->times_each_must_eat == 0)
 	{
 		data->finished++;
 		return NULL;
 	} */
+	pthread_join(data->monitorer, NULL);
 	if (data->philos->post_out == data->philos->id)
 	{
 		printf("returning post_out philo id: %d\n", data->philos->id);
 		sem_post(data->print);
+		exit(0);
 	}
-	return (NULL);
+	exit(1);
 }

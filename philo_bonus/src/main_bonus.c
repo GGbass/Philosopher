@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:53:01 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/20 19:51:20 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/20 21:31:36 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	process_maker(t_data *data)
 		{
 			data->philos->id = i + 1;
 			philo_routine(data);
-			printf("Philosopher %d is out\n", data->philos->id);
 			//free_data(data);
 			exit(1);
 		}
@@ -34,25 +33,6 @@ static void	process_maker(t_data *data)
 		i++;
 	}
 	sem_post(data->start);
-	i = 0;
-	while (i < data->nb_philos)
-	{
-		printf("here\n");
-		waitpid(-1, NULL, 0);
-		if (i == data->nb_philos - 1)
-		{
-			i = 0;
-			printf("nb_philos %d\n", data->nb_philos);
-			while (i < data->nb_philos)
-			{
-				printf("killing %d\n", data->philos[i].pid);
-				kill(data->philos[i].pid, 15);
-				i++;
-			}
-			break ;
-		}
-		i++;
-	}
 }
 
 static void	sema_init(t_data *data)

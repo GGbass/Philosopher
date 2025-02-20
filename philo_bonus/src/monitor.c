@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:38:44 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/20 19:57:22 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/20 21:31:59 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int	time_checker(t_data *data)
 		sem_wait(data->print);
 		*data->philos->dead_flag = 1;
 		data->philos->post_out = data->philos->id;
-		printf("philo post_out : %d and id: %d \n", data->philos->post_out, data->philos->id);
 		sem_post(data->meal);
 		return (0);
 	}
@@ -58,5 +57,6 @@ void	*monitor(void	*dat)
 			break ;
 		usleep(10);
 	}
-	return (NULL);
+	//free_data(data);
+	exit(1);
 }
