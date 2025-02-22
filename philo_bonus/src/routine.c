@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 23:10:29 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/20 21:33:55 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:32:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static void	take_or_release_forks(t_data *data, int release_flag)
 	}
 	else
 	{
+		if (data->philos->id % 2 == 0)
+			usleep(100);
 		sem_post(data->forks);
 		sem_post(data->forks);
 	}
@@ -91,11 +93,11 @@ static int	eating(t_data *data)
 void	*philo_routine(t_data *data)
 {
 	sem_wait(data->start);
+	sem_post(data->start);
 	data->last_meal = get_time();
 	data->time_start = get_time();
 	if (pthread_create(&data->monitorer, NULL, monitor, (void *)data))
 		(free_data(data), exit(1));
-	sem_post(data->start);
 	while (alive_status(data))
 	{
 		if (data->nb_philos == 1)
@@ -107,8 +109,7 @@ void	*philo_routine(t_data *data)
 			print_action(data, data->philos->id, PHILO_DIE);
 			break ;
 		}
-		if (data->philos->id % 2)
-			usleep(10);
+		usleep(50);
 		if (!eating(data))
 			break ;
 		if (!sleeping(data))
@@ -116,19 +117,17 @@ void	*philo_routine(t_data *data)
 		if (!thinking(data))
 			break ;
 	}
-	printf("returning philo id: %d with dead_flag: %d\n", data->philos->id, *data->philos->dead_flag);
-	//pthread_detach(data->monitorer);
-	/* 	if (data->times_each_must_eat == 0)
+	pthread_join(data->monitorer, NULL);
+	if (data->times_each_must_eat == 0)
 	{
 		data->finished++;
-		return NULL;
-	} */
-	pthread_join(data->monitorer, NULL);
+		exit(1);
+	}
 	if (data->philos->post_out == data->philos->id)
 	{
 		printf("returning post_out philo id: %d\n", data->philos->id);
 		sem_post(data->print);
-		exit(0);
+		exit(1);
 	}
 	exit(1);
 }

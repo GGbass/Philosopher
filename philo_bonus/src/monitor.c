@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:38:44 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/20 21:31:59 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:34:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,19 @@ void	*monitor(void	*dat)
 	data = (t_data *)dat;
 	while (1)
 	{
+		sem_wait(data->meal);
 		if (data->times_each_must_eat == 0)
-			break ;
+		{
+			sem_post(data->meal);
+			ft_usleep(data->time_to_eat);
+			return NULL ;
+		}
+		sem_post(data->meal);
 		if (!time_checker(data) || everyone_ate(data))
 			break ;
 		if (!alive_status(data))
 			break ;
 		usleep(10);
 	}
-	//free_data(data);
 	exit(1);
 }

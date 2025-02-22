@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 01:14:21 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/20 20:37:59 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/22 18:10:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,12 @@ char	*ft_itoa(int num)
 
 int	alive_status(t_data *data)
 {
-	sem_wait(data->dead);
+	sem_wait(data->meal);
 	if (*data->philos->dead_flag == 1)
 	{
-		sem_post(data->dead);
+		sem_post(data->meal);
 		return (0);
 	}
-	sem_post(data->dead);
+	sem_post(data->meal);
 	return (1);
 }

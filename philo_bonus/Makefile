@@ -25,8 +25,8 @@ SRC =	./src/monitor.c \
 OBJ = $(SRC:.c=.o)
 
 
-#CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=thread
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address,leak
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=thread
+#CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address,leak
 # valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes -s -q ./philo 4 800 200 200 
 CC = gcc
 #-no-pie

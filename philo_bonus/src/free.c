@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:03:35 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/20 21:27:40 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:57:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	kill_pids(t_data *data)
 
 void	free_data(t_data *data)
 {
+	kill_pids(data);
 	if (data->philos)
 	{
 		free(data->philos);
