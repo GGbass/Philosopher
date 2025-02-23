@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:49:02 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/20 21:27:32 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:26:12 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 
 typedef struct s_philo
 {
-		
 	pid_t				pid;
 	int					id;
 	int					*dead_flag;
@@ -61,7 +60,7 @@ typedef struct s_data
 	sem_t			*dead;
 	sem_t			*start;
 	t_philo			*philos;
-}				t_data;
+}					t_data;
 
 /* argv check */
 int		check_argv(int argc, char **argv);
@@ -81,8 +80,7 @@ char	*ft_itoa(int num);
 void	print_action(t_data *data, int id, char *str);
 void	*philo_routine(t_data *data);
 /* proccess checker */
-int	check_alive(t_data *data);
-int	alive_status(t_data *data);
+int		alive_status(t_data *data);
 void	*monitor(void	*dat);
 
 #endif

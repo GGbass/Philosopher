@@ -3,27 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:38:44 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/22 19:34:27 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:03:41 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher_bonus.h"
 
-static int	everyone_ate(t_data *data)
+int	alive_status(t_data *data)
 {
-	sem_wait(data->dead);
-	if (data->nb_philos == *data->philos->finished)
+	sem_wait(data->meal);
+	if (*data->philos->dead_flag == 1)
 	{
-		sem_wait(data->print);
-		//data->dead_flag = 1;
-		sem_post(data->dead);
-		return (1);
+		sem_post(data->meal);
+		return (0);
 	}
-	sem_post(data->dead);
-	return (0);
+	sem_post(data->meal);
+	return (1);
 }
 
 static int	time_checker(t_data *data)
@@ -44,20 +42,19 @@ static int	time_checker(t_data *data)
 
 void	*monitor(void	*dat)
 {
-	t_data *data;
+	t_data	*data;
 
 	data = (t_data *)dat;
 	while (1)
 	{
-		sem_wait(data->meal);
+		sem_wait(data->start);
 		if (data->times_each_must_eat == 0)
 		{
-			sem_post(data->meal);
-			ft_usleep(data->time_to_eat);
-			return NULL ;
+			sem_post(data->start);
+			break ;
 		}
-		sem_post(data->meal);
-		if (!time_checker(data) || everyone_ate(data))
+		sem_post(data->start);
+		if (!time_checker(data))
 			break ;
 		if (!alive_status(data))
 			break ;

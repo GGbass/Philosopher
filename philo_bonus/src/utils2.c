@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 01:14:21 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/22 18:10:52 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:08:28 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		free(s2);
 	return (joined);
 }
+
 void	print_action(t_data *data, int id, char *str)
 {
 	size_t	time;
@@ -54,21 +55,33 @@ void	print_action(t_data *data, int id, char *str)
 	sem_post(data->print);
 }
 
+int	numb_counter(int n)
+{
+	int	count;
+
+	count = 1;
+	while (n > 9)
+	{
+		n = n / 10;
+		count++;
+	}
+	return (count);
+}
+
 char	*ft_itoa(int num)
 {
 	int		len;
 	int		tmp;
 	char	*str;
 
-	len = 1;
+	len = 0;
 	tmp = num;
 	if (num < 0)
 	{
 		len++;
 		tmp *= -1;
 	}
-	while (tmp /= 10)
-		len++;
+	len = len + numb_counter(tmp);
 	str = ft_calloc(len + 1, 1);
 	if (!str)
 		return (NULL);
@@ -81,16 +94,4 @@ char	*ft_itoa(int num)
 		num /= 10;
 	}
 	return (str);
-}
-
-int	alive_status(t_data *data)
-{
-	sem_wait(data->meal);
-	if (*data->philos->dead_flag == 1)
-	{
-		sem_post(data->meal);
-		return (0);
-	}
-	sem_post(data->meal);
-	return (1);
 }

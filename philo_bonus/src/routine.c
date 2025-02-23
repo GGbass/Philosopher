@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 23:10:29 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/22 19:32:12 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/23 20:59:51 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	sleeping(t_data *data)
 	if (!alive_status(data))
 		return (0);
 	print_action(data, data->philos->id, PHILO_SLEEP);
-	while(1)
+	while (1)
 	{
 		if (!alive_status(data))
 			return (0);
@@ -43,7 +43,7 @@ static void	take_or_release_forks(t_data *data, int release_flag)
 {
 	if (!release_flag)
 	{
-		usleep(100);
+		usleep(50);
 		sem_wait(data->forks);
 		print_action(data, data->philos->id, PHILO_TAKE_FORK);
 		sem_wait(data->forks);
@@ -52,7 +52,7 @@ static void	take_or_release_forks(t_data *data, int release_flag)
 	else
 	{
 		if (data->philos->id % 2 == 0)
-			usleep(100);
+			usleep(50);
 		sem_post(data->forks);
 		sem_post(data->forks);
 	}
@@ -67,7 +67,7 @@ static int	eating(t_data *data)
 	data->last_meal = get_time();
 	print_action(data, data->philos->id, PHILO_EAT);
 	sem_post(data->meal);
-	while(1)
+	while (1)
 	{
 		if (!alive_status(data))
 			return (take_or_release_forks(data, 1), 0);
@@ -76,17 +76,14 @@ static int	eating(t_data *data)
 		usleep(10);
 	}
 	take_or_release_forks(data, 1);
-	sem_wait(data->dead);
+	sem_wait(data->start);
 	if (data->times_each_must_eat > 0)
 	{
 		data->times_each_must_eat--;
 		if (data->times_each_must_eat == 0)
-		{
-			(data->finished)++;
-			return (sem_post(data->dead), 0);
-		}
+			return (sem_post(data->start), 0);
 	}
-	sem_post(data->dead);
+	sem_post(data->start);
 	return (1);
 }
 
@@ -102,14 +99,10 @@ void	*philo_routine(t_data *data)
 	{
 		if (data->nb_philos == 1)
 		{
-			sem_wait(data->forks);
-			print_action(data, data->philos->id, PHILO_TAKE_FORK);
-			ft_usleep(data->time_to_die);
-			sem_post(data->forks);
-			print_action(data, data->philos->id, PHILO_DIE);
+			take_or_release_forks(data, 0);
 			break ;
 		}
-		usleep(50);
+		usleep(10);
 		if (!eating(data))
 			break ;
 		if (!sleeping(data))
@@ -118,16 +111,5 @@ void	*philo_routine(t_data *data)
 			break ;
 	}
 	pthread_join(data->monitorer, NULL);
-	if (data->times_each_must_eat == 0)
-	{
-		data->finished++;
-		exit(1);
-	}
-	if (data->philos->post_out == data->philos->id)
-	{
-		printf("returning post_out philo id: %d\n", data->philos->id);
-		sem_post(data->print);
-		exit(1);
-	}
 	exit(1);
 }

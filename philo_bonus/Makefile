@@ -13,7 +13,6 @@ NAME = philo_bonus
 
 
 SRC =	./src/monitor.c \
-		./src/routine_tools.c \
 		./src/routine.c \
 		./src/check_argv.c \
 		./src/free.c \

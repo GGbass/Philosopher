@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:03:35 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/22 17:57:10 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:08:57 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher_bonus.h"
-
 
 void	kill_pids(t_data *data)
 {
@@ -28,7 +27,6 @@ void	kill_pids(t_data *data)
 			i = 0;
 			while (i < data->nb_philos)
 			{
-				printf("killing %d\n", data->philos[i].pid);
 				kill(data->philos[i].pid, 15);
 				i++;
 			}
