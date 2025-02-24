@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 23:10:29 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/23 20:59:51 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:38:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ void	*philo_routine(t_data *data)
 			break ;
 	}
 	pthread_join(data->monitorer, NULL);
+	free_pid_data(data);
 	exit(1);
 }

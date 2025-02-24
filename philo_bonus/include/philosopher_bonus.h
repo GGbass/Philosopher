@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher_bonus.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:49:02 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/23 20:26:12 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:37:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int		check_argv(int argc, char **argv);
 /* free */
 void	free_data(t_data *data);
 void	kill_pids(t_data *data);
+void	free_pid_data(t_data *data);
 /* utils */
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);

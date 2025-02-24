@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:38:44 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/23 21:03:41 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:38:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ void	*monitor(void	*dat)
 			break ;
 		usleep(10);
 	}
+	free_pid_data(data);
 	exit(1);
 }

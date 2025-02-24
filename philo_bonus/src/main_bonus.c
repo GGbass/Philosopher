@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:53:01 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/23 20:35:10 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/24 13:35:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,6 @@ static void	process_maker(t_data *data)
 
 static void	sema_init(t_data *data)
 {
-	sem_unlink("/print");
-	sem_unlink("/meal");
-	sem_unlink("/dead");
-	sem_unlink("/forks");
-	sem_unlink("/start");
 	data->meal = sem_open("/meal", O_CREAT, 0644, 1);
 	if (data->meal == SEM_FAILED)
 		(write(2, "Error creating meal", 20), free_data(data));

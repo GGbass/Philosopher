@@ -3,14 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:03:35 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/23 21:08:57 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/24 13:36:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher_bonus.h"
+
+static void	free_sems(t_data *data)
+{
+	if (sem_close(data->forks) == -1)
+		(write(2, "Error close fork\n", 17));
+	if (sem_close(data->print) == -1)
+		(write(2, "Error close print\n", 18));
+	if (sem_close(data->start) == -1)
+		(write(2, "Error close start\n", 18));
+	if (sem_close(data->dead) == -1)
+		(write(2, "Error close dead\n", 17));
+	if (sem_close(data->meal) == -1)
+		(write(2, "Error close meal\n", 17));
+	if (sem_unlink("/forks") == -1)
+		(write(2, "Error unlink fork\n", 18));
+	if (sem_unlink("/print") == -1)
+		(write(2, "Error unlink print\n", 19));
+	if (sem_unlink("/start") == -1)
+		(write(2, "Error unlink start\n", 19));
+	if (sem_unlink("/dead") == -1)
+		(write(2, "Error unlink dead\n", 18));
+	if (sem_unlink("/meal") == -1)
+		(write(2, "Error unlink meal\n", 18));
+}
 
 void	kill_pids(t_data *data)
 {
@@ -36,12 +60,24 @@ void	kill_pids(t_data *data)
 	}
 }
 
-void	free_data(t_data *data)
+void	free_pid_data(t_data *data)
 {
-	kill_pids(data);
 	if (data->philos)
 	{
 		free(data->philos);
 	}
-	free(data);
+	if (data)
+		free(data);
+}
+
+void	free_data(t_data *data)
+{
+	kill_pids(data);
+	free_sems(data);
+	if (data->philos)
+	{
+		free(data->philos);
+	}
+	if (data)
+		free(data);
 }
