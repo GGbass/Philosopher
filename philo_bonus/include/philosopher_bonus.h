@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:49:02 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/24 19:00:52 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/24 21:53:01 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int		check_argv(int argc, char **argv);
 /* free */
 void	free_data(t_data *data);
 void	kill_pids(t_data *data);
+void	free_sems(t_data *data);
 void	free_pid_data(t_data *data);
 /* utils */
 int		ft_isdigit(int c);

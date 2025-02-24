@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:38:44 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/24 21:18:32 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/24 21:59:25 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	meals_check(t_data *data)
 		data->times_each_must_eat--;
 		if (data->times_each_must_eat == 0)
 		{
-			ft_usleep(data->time_to_eat);
+			ft_usleep(data->time_to_eat / 2);
 			return (sem_post(data->start), 0);
 		}
 	}
@@ -65,7 +65,8 @@ void	*monitor(void	*dat)
 		if (data->times_each_must_eat == 0)
 		{
 			sem_post(data->start);
-			break ;
+			return (NULL);
+			//break ;
 		}
 		sem_post(data->start);
 		if (!time_checker(data))
