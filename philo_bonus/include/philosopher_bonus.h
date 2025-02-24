@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher_bonus.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:49:02 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/24 12:37:13 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/24 19:00:52 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ char	*ft_itoa(int num);
 /* routine */
 void	print_action(t_data *data, int id, char *str);
 void	*philo_routine(t_data *data);
+int		meals_check(t_data *data);
 /* proccess checker */
 int		alive_status(t_data *data);
 void	*monitor(void	*dat);

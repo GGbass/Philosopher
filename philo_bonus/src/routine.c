@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 23:10:29 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/24 12:38:29 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/24 21:15:18 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,12 @@ static int	eating(t_data *data)
 			return (take_or_release_forks(data, 1), 0);
 		if (get_time() - data->last_meal >= data->time_to_eat)
 			break ;
-		usleep(10);
+		usleep(15);
 	}
 	take_or_release_forks(data, 1);
 	sem_wait(data->start);
-	if (data->times_each_must_eat > 0)
-	{
-		data->times_each_must_eat--;
-		if (data->times_each_must_eat == 0)
-			return (sem_post(data->start), 0);
-	}
+	if (!meals_check(data))
+		return (0);
 	sem_post(data->start);
 	return (1);
 }
@@ -90,19 +86,19 @@ static int	eating(t_data *data)
 void	*philo_routine(t_data *data)
 {
 	sem_wait(data->start);
-	sem_post(data->start);
 	data->last_meal = get_time();
 	data->time_start = get_time();
 	if (pthread_create(&data->monitorer, NULL, monitor, (void *)data))
 		(free_data(data), exit(1));
-	while (alive_status(data))
+	sem_post(data->start);
+	while (1)
 	{
 		if (data->nb_philos == 1)
 		{
 			take_or_release_forks(data, 0);
 			break ;
 		}
-		usleep(10);
+		usleep(20);
 		if (!eating(data))
 			break ;
 		if (!sleeping(data))
@@ -111,6 +107,5 @@ void	*philo_routine(t_data *data)
 			break ;
 	}
 	pthread_join(data->monitorer, NULL);
-	free_pid_data(data);
-	exit(1);
+	return (NULL);
 }

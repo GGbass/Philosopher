@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:38:44 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/24 12:38:41 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/24 21:18:32 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosopher_bonus.h"
+
+int	meals_check(t_data *data)
+{
+	if (data->times_each_must_eat > 0)
+	{
+		data->times_each_must_eat--;
+		if (data->times_each_must_eat == 0)
+		{
+			ft_usleep(data->time_to_eat);
+			return (sem_post(data->start), 0);
+		}
+	}
+	return (1);
+}
 
 int	alive_status(t_data *data)
 {
@@ -60,6 +74,5 @@ void	*monitor(void	*dat)
 			break ;
 		usleep(10);
 	}
-	free_pid_data(data);
 	exit(1);
 }

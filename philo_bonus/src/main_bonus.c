@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:53:01 by gongarci          #+#    #+#             */
-/*   Updated: 2025/02/24 13:35:28 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/24 21:14:49 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	process_maker(t_data *data)
 		{
 			data->philos->id = i + 1;
 			philo_routine(data);
+			free_pid_data(data);
 			exit(1);
 		}
 		else if (data->philos[i].pid < 0)

@@ -6,7 +6,7 @@
 /*   By: gongarci <gongarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:04:00 by marvin            #+#    #+#             */
-/*   Updated: 2025/02/04 10:17:20 by gongarci         ###   ########.fr       */
+/*   Updated: 2025/02/24 21:20:28 by gongarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,18 +121,3 @@ int	main(int argc, char **argv)
 	free_data(data);
 	return (0);
 }
-
-/* 	i = 0;
-	while(i < data->nb_philos)
-	{
-		data->philos[i].print = &data->print;
-		data->philos[i].meal = &data->meal;
-		data->philos[i].dead = &data->dead;
-		data->philos[i].start = &data->start;
-		data->philos[i].left_fork = &data->forks[i];
-		if (i + 1 == data->philos->nb_philos)
-			data->philos[i].right_fork = &data->forks[0];
-		else
-			data->philos[i].right_fork = &data->forks[i + 1];
-		i++;
-	} */
